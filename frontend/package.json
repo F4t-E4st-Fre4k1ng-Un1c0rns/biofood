@@ -1,0 +1,44 @@
+{
+  "name": "bun-react-template",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.tsx",
+  "module": "src/index.tsx",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "prettier . --check",
+    "format": "prettier . --write",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@react-router/dev": "^7.2.0",
+    "react": "^19",
+    "react-dom": "^19",
+    "react-router": "^7.2.0",
+    "react-router-hash-link": "^2.4.3",
+    "tailwindcss": "^4.0.6",
+    "zustand": "^5.0.3"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^3.2.5",
+    "@storybook/addon-essentials": "^8.6.2",
+    "@storybook/addon-onboarding": "^8.6.2",
+    "@storybook/blocks": "^8.6.2",
+    "@storybook/experimental-addon-test": "^8.6.2",
+    "@storybook/react": "^8.6.2",
+    "@storybook/react-vite": "^8.6.2",
+    "@storybook/test": "^8.6.2",
+    "@tailwindcss/vite": "^4.0.9",
+    "@types/bun": "latest",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitest/browser": "^3.0.7",
+    "@vitest/coverage-v8": "^3.0.7",
+    "playwright": "^1.50.1",
+    "storybook": "^8.6.2",
+    "vitest": "^3.0.7"
+  }
+}

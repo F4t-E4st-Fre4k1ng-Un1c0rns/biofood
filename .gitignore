@@ -1,0 +1,5 @@
+# sensitive info
+.env
+
+# editors configs
+.vscode

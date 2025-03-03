@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@theme {
+  --color-white: #fbfbfe;
+  --color-black: #0c0c1d;
+  --color-primary: #4bcda3;
+  --color-secondary: #eee676;
+  --color-accent: #0fa18d;
+
+  --button-offset: -8px;
+}
+
+@layer base {
+  :root {
+    @apply text-black bg-white font-sans;
+  }
+  html {
+    @apply scroll-smooth scroll-pt-[80px];
+  }
+  body * {
+    @apply transition duration-150;
+    @apply text-ellipsis;
+  }
+  a {
+    @apply hover:text-primary hover:underline;
+  }
+}
+
+@layer components {
+  body {
+    @apply text-ellipsis;
+  }
+  .text-strong {
+    @apply font-semibold text-lg;
+  }
+  p {
+    @apply overflow-hidden;
+  }
+
+  h1 {
+    @apply text-2xl font-semibold;
+  }
+
+  h2 {
+    @apply text-lg font-semibold;
+  }
+}
