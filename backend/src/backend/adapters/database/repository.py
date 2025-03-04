@@ -112,7 +112,6 @@ class SQLAlchemyRepository[ModelT](Repository[ModelT]):
         except IntegrityError:
             raise IntegrityCompromised
 
-
     async def create_many(self, data: Iterable[ModelData]) -> Sequence[ModelT]:
         return [await self.create_one(obj) for obj in data]
 
@@ -125,7 +124,6 @@ class SQLAlchemyRepository[ModelT](Repository[ModelT]):
             raise IntegrityCompromised
         except NoResultFound:
             raise NotFound
-
 
     async def update_many(
         self, ids: Iterable[UUID], data: Iterable[ModelData]
@@ -168,7 +166,6 @@ class SQLAlchemyRepository[ModelT](Repository[ModelT]):
             return await self._map_to_domain_model(res.scalar_one())
         except NoResultFound:
             raise NotFound
-
 
     async def find_many(
         self,

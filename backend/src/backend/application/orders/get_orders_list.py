@@ -1,6 +1,3 @@
-from datetime import datetime
-from typing import Optional
-
 from src.backend.application.common.authorization import AccessTokenI
 from src.backend.application.common.interactor import Interactor
 from src.backend.application.common.uow import UoW

@@ -13,3 +13,4 @@ class OrderStatus(StrEnum):
     cooking = "cooking"
     ready = "ready"
     taken = "taken"
+    canceled = "canceled"
