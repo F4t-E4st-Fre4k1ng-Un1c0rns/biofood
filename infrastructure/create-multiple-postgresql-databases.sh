@@ -15,7 +15,7 @@ EOSQL
 
 function import_dump() {
 	local database=$1
-    psql -U "$POSTGRES_USER" -d "$database" -a -f "docker-entrypoint-initdb.d/dumps/$database.sql"
+    psql -U "$POSTGRES_USER" -d "$database" -a -f "docker-entrypoint-initdb.d/$database.sql"
 }
 
 if [ -n "$POSTGRES_MULTIPLE_DATABASES" ]; then
