@@ -57,7 +57,7 @@ func AddDish(conn *pgx.Conn, dish *Dish) {
 	id := uuid.New()
 	_, err := conn.Exec(
 		context.Background(),
-		"INSERT INTO public.dishes (name, banner_path, id, price, \"categoryId\") VALUES ($1, $2, $3, $4, $5)",
+		"INSERT INTO public.dishes (name, \"bannerPath\", id, price, \"categoryId\") VALUES ($1, $2, $3, $4, $5)",
 		dish.Name, dish.BannerPath, id, dish.Price, dish.CategoryUUID,
 	)
 	if err != nil {
@@ -118,7 +118,7 @@ func ReadDishIds(conn *pgx.Conn) ([]uuid.UUID, error) {
 func AddOrder(conn *pgx.Conn, userId uuid.UUID, status string, takeoutTime time.Time, orderId uuid.UUID) {
 	_, err := conn.Exec(
 		context.Background(),
-		"INSERT INTO public.orders (\"userId\", status, takeout_time, id) VALUES ($1, $2, $3, $4)",
+		"INSERT INTO public.orders (\"userId\", status, \"takeoutTime\", id) VALUES ($1, $2, $3, $4)",
 		userId, status, takeoutTime, orderId,
 	)
 	if err != nil {
