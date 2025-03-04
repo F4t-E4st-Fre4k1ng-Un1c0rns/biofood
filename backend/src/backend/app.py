@@ -24,6 +24,7 @@ def create_fastapi_app(settings=settings):
     )
     return app
 
+
 def add_endpoints(api_router: APIRouter):
     api_router.include_router(auth_router)
     api_router.include_router(categories_router)

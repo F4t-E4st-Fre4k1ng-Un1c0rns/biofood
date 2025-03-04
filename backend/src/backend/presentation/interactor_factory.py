@@ -1,19 +1,19 @@
 from abc import ABC, abstractmethod
 from typing import ContextManager
 
+from src.backend.application.authenticate import Authenticate
+from src.backend.application.common.authorization import AccessTokenI
+from src.backend.application.get_categories_list import GetCategoriesList
+from src.backend.application.get_dishes_list import GetDishshesList
+from src.backend.application.orders.create_order import CreateOrder
+from src.backend.application.orders.get_orders_by_id import GetOrderByID
+from src.backend.application.orders.get_orders_list import GetOrdersList
 from src.backend.application.shopping_cart.add_to_shopping_cart_items import (
     AddToShoppingCartItemsList,
 )
-from src.backend.application.authenticate import Authenticate
-from src.backend.application.common.authorization import AccessTokenI
-from src.backend.application.orders.create_order import CreateOrder
 from src.backend.application.shopping_cart.delete_from_shopping_cart_items import (
     DeleteFromShoppingCartItemsList,
 )
-from src.backend.application.get_categories_list import GetCategoriesList
-from src.backend.application.get_dishes_list import GetDishshesList
-from src.backend.application.orders.get_orders_by_id import GetOrderByID
-from src.backend.application.orders.get_orders_list import GetOrdersList
 from src.backend.application.shopping_cart.get_shopping_cart_items_list import (
     GetShoppingCartItemsList,
 )

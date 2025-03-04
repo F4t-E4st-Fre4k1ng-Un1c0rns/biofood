@@ -9,7 +9,6 @@ from src.backend.application.authenticate import (
 )
 from src.backend.ioc import IoC
 
-
 auth_router = APIRouter(prefix="")
 
 
@@ -22,5 +21,3 @@ auth_router = APIRouter(prefix="")
 async def authenticate(ioc: Annotated[IoC, Depends()], data: AuthenticateDTO):
     with ioc.authenticate() as authenticate_interactor:
         return await authenticate_interactor(data)
-
-

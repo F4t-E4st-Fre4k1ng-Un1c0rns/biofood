@@ -1,4 +1,3 @@
-
 from typing import Annotated
 
 from fastapi import APIRouter, Depends
@@ -18,6 +17,7 @@ from src.backend.ioc import IoC
 from src.backend.presentation.dependencies import AccessToken, provide_access_token
 
 shopping_cart_router = APIRouter(prefix="")
+
 
 @shopping_cart_router.get(
     "/shopping-cart-items",

@@ -1,6 +1,7 @@
 from typing import Annotated, Optional
 
 from fastapi import APIRouter, Depends
+
 from src.backend.application.get_dishes_list import (
     GetDishesListDTO,
     GetDishesListResultDTO,
@@ -25,4 +26,3 @@ async def get_dishes_list(
         return await get_dishes_list_interactor(
             GetDishesListDTO(category_id=category_id)
         )
-

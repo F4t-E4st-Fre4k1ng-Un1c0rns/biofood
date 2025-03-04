@@ -1,4 +1,3 @@
-
 from typing import Annotated
 
 from fastapi import APIRouter, Depends
@@ -21,4 +20,3 @@ async def get_categories_list(
     with ioc.get_categories_list() as get_categories_list_interactor:
         data = await get_categories_list_interactor()
         return data
-
