@@ -3,12 +3,11 @@ name: biofood-dev
 
 services:
   database:
-    container_name: database
     image: postgres:13-alpine
     volumes:
       - ./create-multiple-postgresql-databases.sh:/docker-entrypoint-initdb.d/create-multiple-postgresql-databases.sh:ro
-      - ./dumps/biofoodCustomer.sql:/docker-entrypoint-initdb.d/biofoodCustomer.sql
-      - ./dumps/biofoodModel.sql:/docker-entrypoint-initdb.d/biofoodModel.sql
+      - ./dumps/${POSTGRES_DB_CUSTOMER}.sql:/docker-entrypoint-initdb.d/${POSTGRES_DB_CUSTOMER}.sql:ro
+      - ./dumps/${POSTGRES_DB_MODEL}.sql:/docker-entrypoint-initdb.d/${POSTGRES_DB_MODEL}.sql:ro
     ports:
       - 5432:5432
     environment:
@@ -29,15 +28,13 @@ services:
           path: ../backend/src
           target: /backend/src
     environment:
-      POSTGRES_DSN: ${POSTGRES_DSN}
+      POSTGRES_DSN: ${POSTGRES_DSN_BASE}/${POSTGRES_DB_CUSTOMER}
       MINIO_USER_URL: ${MINIO_USER_URL}
       MINIO_BUCKET_NAME: ${MINIO_BUCKET_NAME}
       JWT_SECRET: ${JWT_SECRET}
       JWT_ALGORITHMS: ${JWT_ALGORITHMS}
 
   s3:
-    container_name: s3
-    restart: always
     image: minio/minio
     env_file: .env
     command: |
