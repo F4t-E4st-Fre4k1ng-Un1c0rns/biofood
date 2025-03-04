@@ -1,20 +1,21 @@
 from contextlib import contextmanager
 
 from backend.application.common.authorization import AccessTokenI
-from backend.application.get_shopping_cart_items_list import GetShoppingCartItemsList
+from backend.application.orders.get_orders_by_id import GetOrderByID
+from backend.application.shopping_cart.get_shopping_cart_items_list import GetShoppingCartItemsList
 from src.backend.adapters.database.uow import UoWGateway
 from src.backend.adapters.oauth import YandexIdGateway
-from src.backend.application.add_to_shopping_cart_items import (
+from src.backend.application.shopping_cart.add_to_shopping_cart_items import (
     AddToShoppingCartItemsList,
 )
 from src.backend.application.authenticate import Authenticate
-from src.backend.application.create_order import CreateOrder
-from src.backend.application.delete_from_shopping_cart_items import (
+from src.backend.application.orders.create_order import CreateOrder
+from src.backend.application.shopping_cart.delete_from_shopping_cart_items import (
     DeleteFromShoppingCartItemsList,
 )
 from src.backend.application.get_categories_list import GetCategoriesList
 from src.backend.application.get_dishes_list import GetDishshesList
-from src.backend.application.get_orders_list import GetOrdersList
+from src.backend.application.orders.get_orders_list import GetOrdersList
 from src.backend.presentation.interactor_factory import InteractorFactory
 
 
@@ -50,6 +51,10 @@ class IoC(InteractorFactory):
     @contextmanager
     def get_orders_list(self, token: AccessTokenI):
         yield GetOrdersList(uow=self.uow_gateway, token=token)
+
+    @contextmanager
+    def get_order_by_id(self, token: AccessTokenI):
+        yield GetOrderByID(uow=self.uow_gateway, token=token)
 
     @contextmanager
     def create_order(self, token: AccessTokenI):

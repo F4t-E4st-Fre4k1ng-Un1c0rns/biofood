@@ -1,10 +1,22 @@
-class NotFound(Exception): ...
+class NotFound(Exception):
+    """
+        Represendted as 404 error
+    """
 
 
-class IntegrityCompromised(Exception): ...
+class IntegrityCompromised(Exception):
+    """
+        Represendted as 409 error
+    """
 
 
-class AuthenticationError(Exception): ...
+class AuthenticationError(Exception):
+    """
+        Represendted as 401 error
+    """
 
 
-class AuthorizationError(Exception): ...
+class AuthorizationError(Exception):
+    """
+        Represendted as 403 error
+    """
