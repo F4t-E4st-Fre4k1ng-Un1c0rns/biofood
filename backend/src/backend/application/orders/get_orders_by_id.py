@@ -1,3 +1,4 @@
+from backend.domain.value_objects import UserRole
 from pydantic import RootModel
 
 from src.backend.application.common.authorization import AccessTokenI
@@ -25,6 +26,6 @@ class GetOrderByID(Interactor[GetOrderByIdDTO, GetOrderByIdResultDTO]):
         async with self.uow:
             by_filter = {"id": data.id}
             order = await self.uow.order.find_one(by_filter=by_filter)
-            if order.user_id != self.token.user_id:
+            if order.user_id.hex != self.token.user_id and self.token.user_role == UserRole.client:
                 raise AuthorizationError("You have no right to access this order")
             return GetOrderByIdResultDTO(order)
