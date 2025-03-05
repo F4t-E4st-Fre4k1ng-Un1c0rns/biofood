@@ -1,2 +1,4 @@
 # Production volumes
 *_volume
+metadata/
+metadata/*
