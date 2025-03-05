@@ -47,18 +47,20 @@ export default () => {
       navigate("/login");
       return;
     }
-    setState(LoadingState.loading)
-    put(cookBy?.toISOString() ?? null).then((order) => {
-      if (!order) {
-        navigate(`/order/500?new=1`);
-      }
-      cache.setCachedOrders([order!]);
-      navigate(`/order/${order!.id}?new=1`);
-    }).catch((e) => {
-      console.error(e)
-      navigate('/order/500?new=1');
-    })
- };
+    setState(LoadingState.loading);
+    put(cookBy?.toISOString() ?? null)
+      .then((order) => {
+        if (!order) {
+          navigate(`/order/500?new=1`);
+        }
+        cache.setCachedOrders([order!]);
+        navigate(`/order/${order!.id}?new=1`);
+      })
+      .catch((e) => {
+        console.error(e);
+        navigate("/order/500?new=1");
+      });
+  };
 
   return (
     <>
@@ -97,9 +99,11 @@ export default () => {
             onChange={(e) => setTimeValue(e.target.value)}
           />
         </div>
-        {state === LoadingState.ok && <Button color="primary" onClick={confirmOrder} className="w-full">
-          {`Заказать за ${sum.toLocaleString("ru-RU")} ₽`}
-        </Button>}
+        {state === LoadingState.ok && (
+          <Button color="primary" onClick={confirmOrder} className="w-full">
+            {`Заказать за ${sum.toLocaleString("ru-RU")} ₽`}
+          </Button>
+        )}
         {state === LoadingState.loading && <LoadingIcon />}
       </div>
     </>
