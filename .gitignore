@@ -3,3 +3,5 @@
 
 # editors configs
 .vscode
+
+.DS_Store
