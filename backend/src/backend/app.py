@@ -1,10 +1,12 @@
+from backend.domain.exceptions import AuthenticationError, AuthorizationError, IntegrityCompromised, NotFound
+from backend.presentation.exceptions import authentication_error_handler, authorization_error_handler, integrity_compromised_handler, not_found_handler
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.backend.presentation.endpoints.auth import auth_router
 from src.backend.presentation.endpoints.categories import categories_router
 from src.backend.presentation.endpoints.dishes import dishes_router
-from src.backend.presentation.endpoints.orders.routes import orders_router
+from src.backend.presentation.endpoints.orders import orders_router
 from src.backend.presentation.endpoints.shopping_cart import shopping_cart_router
 
 from .settings import settings
@@ -13,7 +15,9 @@ from .settings import settings
 def create_fastapi_app(settings=settings):
     app = FastAPI(title="Biofood API")
     api_router = APIRouter(prefix="/api")
+
     add_endpoints(api_router)
+    add_exception_handler(app)
 
     app.include_router(api_router)
     app.add_middleware(
@@ -32,5 +36,10 @@ def add_endpoints(api_router: APIRouter):
     api_router.include_router(orders_router)
     api_router.include_router(shopping_cart_router)
 
+def add_exception_handler(app: FastAPI):
+    app.add_exception_handler(NotFound, not_found_handler)
+    app.add_exception_handler(IntegrityCompromised, integrity_compromised_handler)
+    app.add_exception_handler(AuthenticationError, authentication_error_handler)
+    app.add_exception_handler(AuthorizationError, authorization_error_handler)
 
 app = create_fastapi_app()

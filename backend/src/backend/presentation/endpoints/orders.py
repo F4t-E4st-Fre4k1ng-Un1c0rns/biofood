@@ -1,7 +1,6 @@
-from asyncio import sleep
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
 
 from backend.application.orders.change_order_status import (
@@ -18,7 +17,7 @@ from backend.application.orders.get_orders_by_id import (
 )
 from backend.domain.aggregates import OrderID
 from backend.domain.value_objects import OrderStatus
-from backend.presentation.endpoints.orders.schemas import ChangeOrderStatusInput
+from pydantic import BaseModel
 from src.backend.application.orders.create_order import (
     CreateOrderDTO,
     CreateOrderResultDTO,
@@ -55,7 +54,7 @@ async def get_orders_list(
     response_model=GetAllOrderForTodayResultDTO,
     summary="Get todays orders",
 )
-async def get_todays_orders(
+async def get_orders_for_today(
     ioc: Annotated[IoC, Depends()],
     access_token: Annotated[AccessToken, Depends(provide_admin_access_token)],
     status: OrderStatus,
@@ -81,6 +80,10 @@ async def get_order_by_id(
 ):
     with ioc.get_order_by_id(access_token) as get_order_by_id_interactor:
         return await get_order_by_id_interactor(GetOrderByIdDTO(id=id))
+
+
+class ChangeOrderStatusInput(BaseModel):
+    status: OrderStatus
 
 
 @orders_router.patch(
