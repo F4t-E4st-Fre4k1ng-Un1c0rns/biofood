@@ -109,7 +109,7 @@ services:
       # CONNECTION TO DATABASE
       BI_COMPENG_PG_URL: ${POSTGRES_DSN_BASE}/${POSTGRES_DB_MODEL}
 
-      US_HOST: "http://us:8083"
+      US_HOST: "http://datalens-us:8083"
       US_MASTER_TOKEN: "fake-us-master-token"
     depends_on:
       - datalens-us
