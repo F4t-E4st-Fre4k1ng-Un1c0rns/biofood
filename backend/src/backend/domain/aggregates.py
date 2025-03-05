@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import NewType
+from typing import NewType, Optional
 from uuid import UUID
 
 from src.backend.domain.common import Base
@@ -18,4 +18,4 @@ class Order(Base):
     user_id: UserID
     items: list[OrderItem]
     status: OrderStatus
-    takeout_time: datetime
+    takeout_time: Optional[datetime]
