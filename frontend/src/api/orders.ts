@@ -52,3 +52,29 @@ export async function load(): Promise<Order[] | undefined> {
     takeoutTime: new Date(order.takeoutTime),
   }));
 }
+
+export async function loadOne(id: Order["id"]): Promise<Order | undefined> {
+  if (import.meta.env.VITE_MOCK_API) {
+    throw new Error();
+  }
+  const { getState: getAuthState } = useAuthStore;
+  if (!getAuthState().loggedIn) {
+    throw new Error("403");
+  }
+
+  const response = await fetch(
+    `${import.meta.env.VITE_API_BASE_URL}/orders/${id}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getAuthState().user?.token}`,
+      },
+    }
+  );
+  const json = await response.json();
+
+  return {
+    ...json,
+    takeoutTime: new Date(json.takeoutTime),
+  };
+}
