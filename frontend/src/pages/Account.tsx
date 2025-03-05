@@ -7,6 +7,7 @@ import OrderStatus from "@/components/OrderStatus";
 import { useAuthStore } from "@/store/auth";
 import LoadingState from "@/types/LoadingState";
 import Order from "@/types/Order";
+import { uuidToOrderNumber } from "@/utils/uuidToOrderNumber";
 import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
@@ -47,8 +48,13 @@ export default () => {
       {ordersState == LoadingState.ok &&
         orders?.map((order) => {
           return (
-            <Fragment key={order.id}>
-              <h2>Заказ к {order.takeoutTime.toLocaleString("ru-RU")}</h2>
+            <div key={order.id}>
+              <h2>
+                Заказ №{uuidToOrderNumber(order.id)}
+                {order.takeoutTime && (
+                  <> к {order.takeoutTime.toLocaleString("ru-RU")}</>
+                )}
+              </h2>
               <OrderStatus status={order.status} />
 
               {order?.items?.map((item) => {
@@ -62,7 +68,7 @@ export default () => {
                   />
                 );
               })}
-            </Fragment>
+            </div>
           );
         })}
     </div>
