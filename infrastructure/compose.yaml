@@ -18,6 +18,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
   backend:
+    container_name: biofood-backend
     build:
       context: ../backend
       target: dev
@@ -36,6 +37,7 @@ services:
       JWT_ALGORITHMS: ${JWT_ALGORITHMS}
 
   s3:
+    container_name: biofood-s3
     image: minio/minio
     env_file: .env
     command: |
@@ -49,12 +51,13 @@ services:
       - 9000:9000
       - 9001:9001
     volumes:
-      - minio_storage
+      - minio_storage:/data
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
   
   s3-setup:
+    container_name: biofood-s3-setup
     image: minio/mc
     env_file: .env
     depends_on:
@@ -75,7 +78,7 @@ services:
       exit 0;
       "
 
-  datalens-control-api:
+  control-api:
     container_name: datalens-control-api
     image: ghcr.io/datalens-tech/datalens-control-api:0.2192.0
     environment:
@@ -90,7 +93,7 @@ services:
     depends_on:
       - us
 
-  datalens-data-api:
+  data-api:
     container_name: datalens-data-api
     image: ghcr.io/datalens-tech/datalens-data-api:0.2192.0
     environment:
@@ -112,7 +115,7 @@ services:
       - us
 
 
-  datalens-pg-us:
+  pg-us:
     container_name: datalens-pg-us
     image: postgres:16-alpine
     environment:
@@ -122,7 +125,7 @@ services:
     volumes:
       - us_storage:/var/lib/postgresql/data
 
-  datalens-us:
+  us:
     container_name: datalens-us
     image: ghcr.io/datalens-tech/datalens-us:0.310.0
     depends_on:
@@ -139,7 +142,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
-  datalens-ui:
+  ui:
     container_name: datalens-ui
     image: ghcr.io/datalens-tech/datalens-ui:0.2601.0
     ports:
@@ -162,6 +165,9 @@ services:
 
 volumes:
   database_storage:
+    name: biofood_database_storage
   minio_storage:
+    name: biofood_minio_storage
   us_storage:
+    name: biofood_us_storage
 
