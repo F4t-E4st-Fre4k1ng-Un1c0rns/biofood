@@ -1,9 +1,10 @@
 from datetime import datetime
 from uuid import UUID, uuid4
 
+from sqlalchemy import DateTime
 from sqlalchemy.orm import Mapped, mapped_column
 
-from .common import utcnow
+from src.backend.adapters.database.orm.common import utcnow
 
 
 class UUIDMixin:
@@ -16,14 +17,16 @@ class UUIDMixin:
 
 
 class TimestampMixin:
-    createdAt: Mapped[datetime] = mapped_column(
+    created_at: Mapped[datetime] = mapped_column(
         "createdAt",
+        DateTime(timezone=True),
         nullable=False,
         server_default=utcnow(),
         sort_order=9999,
     )
-    updatedAt: Mapped[datetime] = mapped_column(
+    updated_at: Mapped[datetime] = mapped_column(
         "updatedAt",
+        DateTime(timezone=True),
         nullable=True,
         server_default=utcnow(),
         server_onupdate=utcnow(),

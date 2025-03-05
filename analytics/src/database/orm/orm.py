@@ -2,15 +2,14 @@ from datetime import datetime
 from decimal import Decimal
 from uuid import UUID
 
-from sqlalchemy import Numeric, SmallInteger, String, UniqueConstraint
-from sqlalchemy.types import DateTime
+from sqlalchemy import Text, Numeric, SmallInteger, String, UniqueConstraint
 from sqlalchemy.ext.asyncio import AsyncAttrs
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.orm.properties import ForeignKey
+from sqlalchemy.types import DateTime
 
-
-from .mixins import TimestampMixin, UUIDMixin
-from src.domain.value_objects import OrderStatus, UserRole
+from src.backend.adapters.database.orm.mixins import TimestampMixin, UUIDMixin
+from src.backend.domain.value_objects import OrderStatus, UserRole
 
 
 class Base(AsyncAttrs, DeclarativeBase): ...
@@ -31,7 +30,7 @@ class CategoryORM(Base, UUIDMixin, TimestampMixin):
 class DishORM(Base, UUIDMixin, TimestampMixin):
     __tablename__ = "dishes"
     name: Mapped[str] = mapped_column(unique=True)
-    banner_path: Mapped[str] = mapped_column(String(32), nullable=True)
+    banner_path: Mapped[str] = mapped_column(Text, nullable=True)
     price: Mapped[Decimal] = mapped_column(Numeric(8, 2))
     description: Mapped[str] = mapped_column(nullable=True)
     weight: Mapped[int] = mapped_column(SmallInteger, nullable=True)
@@ -65,5 +64,3 @@ class OrderItemORM(Base, UUIDMixin):
     dish_id: Mapped[UUID] = mapped_column(ForeignKey(DishORM.id))
     dish: Mapped[DishORM] = relationship(lazy="selectin")
     amount: Mapped[int] = mapped_column(SmallInteger)
-
-    order: Mapped[OrderORM] = relationship(lazy="selectin")

@@ -2,7 +2,7 @@ from datetime import datetime
 from decimal import Decimal
 from uuid import UUID
 
-from sqlalchemy import Numeric, SmallInteger, String, UniqueConstraint
+from sqlalchemy import Text, Numeric, SmallInteger, String, UniqueConstraint
 from sqlalchemy.ext.asyncio import AsyncAttrs
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.orm.properties import ForeignKey
@@ -30,7 +30,7 @@ class CategoryORM(Base, UUIDMixin, TimestampMixin):
 class DishORM(Base, UUIDMixin, TimestampMixin):
     __tablename__ = "dishes"
     name: Mapped[str] = mapped_column(unique=True)
-    banner_path: Mapped[str] = mapped_column(String(32), nullable=True)
+    banner_path: Mapped[str] = mapped_column(Text, nullable=True)
     price: Mapped[Decimal] = mapped_column(Numeric(8, 2))
     description: Mapped[str] = mapped_column(nullable=True)
     weight: Mapped[int] = mapped_column(SmallInteger, nullable=True)
