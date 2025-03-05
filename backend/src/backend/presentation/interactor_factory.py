@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import ContextManager
 
+from backend.application.orders.change_order_status import ChangeOrderStatus
 from src.backend.application.authenticate import Authenticate
 from src.backend.application.common.authorization import AccessTokenI
 from src.backend.application.get_categories_list import GetCategoriesList
@@ -63,6 +64,12 @@ class InteractorFactory(ABC):
     def get_all_orders_for_today(
         self, token: AccessTokenI
     ) -> ContextManager[GetAllOrdersForToday]:
+        raise NotImplementedError
+
+    @abstractmethod
+    def change_order_status(
+        self, token: AccessTokenI
+    ) -> ContextManager[ChangeOrderStatus]:
         raise NotImplementedError
 
     @abstractmethod

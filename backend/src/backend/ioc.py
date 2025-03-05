@@ -1,6 +1,7 @@
 from contextlib import contextmanager
 
 from backend.application.common.authorization import AccessTokenI
+from backend.application.orders.change_order_status import ChangeOrderStatus
 from backend.application.orders.get_all_orders_for_today import GetAllOrdersForToday
 from backend.application.orders.get_orders_by_id import GetOrderByID
 from backend.application.shopping_cart.get_shopping_cart_items_list import (
@@ -62,6 +63,10 @@ class IoC(InteractorFactory):
     @contextmanager
     def create_order(self, token: AccessTokenI):
         yield CreateOrder(uow=self.uow_gateway, token=token)
+
+    @contextmanager
+    def change_order_status(self, token: AccessTokenI):
+        yield ChangeOrderStatus(uow=self.uow_gateway, token=token)
 
     @contextmanager
     def get_all_orders_for_today(self, token: AccessTokenI):
