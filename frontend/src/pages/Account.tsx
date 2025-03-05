@@ -49,13 +49,14 @@ export default () => {
         orders?.map((order) => {
           return (
             <div key={order.id}>
-              <h2>
+              <h2 className="mb-4">
                 Заказ №{uuidToOrderNumber(order.id)}
                 {order.takeoutTime && (
                   <> к {order.takeoutTime.toLocaleString("ru-RU")}</>
                 )}
+                {" "}
+                <OrderStatus status={order.status} />
               </h2>
-              <OrderStatus status={order.status} />
 
               {order?.items?.map((item) => {
                 return (
