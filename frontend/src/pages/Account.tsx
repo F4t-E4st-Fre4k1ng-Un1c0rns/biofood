@@ -3,6 +3,7 @@ import Button from "@/components/Button";
 import DishInCart from "@/components/DishInCart";
 import Error from "@/components/Error";
 import LoadingIcon from "@/components/LoadingIcon";
+import OrderStatus from "@/components/OrderStatus";
 import { useAuthStore } from "@/store/auth";
 import LoadingState from "@/types/LoadingState";
 import Order from "@/types/Order";
@@ -48,6 +49,7 @@ export default () => {
           return (
             <Fragment key={order.id}>
               <h2>Заказ к {order.takeoutTime.toLocaleString("ru-RU")}</h2>
+              <OrderStatus status={order.status} />
 
               {order?.items?.map((item) => {
                 return (

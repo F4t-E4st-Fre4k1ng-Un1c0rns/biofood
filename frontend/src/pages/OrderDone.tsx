@@ -2,6 +2,7 @@ import { put } from "@/api/orders";
 import DishInCart from "@/components/DishInCart";
 import Error from "@/components/Error";
 import LoadingIcon from "@/components/LoadingIcon";
+import OrderStatus from "@/components/OrderStatus";
 import { useCartStore } from "@/store/cart";
 import LoadingState from "@/types/LoadingState";
 import Order from "@/types/Order";
@@ -34,6 +35,7 @@ export default () => {
         <>
           <h2>Ваш заказ:</h2>
           <p>Будет готов к {order.takeoutTime.toLocaleDateString("ru-RU")}</p>
+          <OrderStatus status={order.status} />
           {order.items.map((item) => {
             return (
               <DishInCart
