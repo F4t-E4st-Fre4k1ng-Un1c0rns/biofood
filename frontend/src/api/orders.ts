@@ -3,7 +3,7 @@ import Order from "@/types/Order";
 
 type ApiOrder = Order & { takeoutTime: string };
 
-export async function put(takeoutTime: string): Promise<Order | undefined> {
+export async function put(takeoutTime: string | null): Promise<Order | undefined> {
   if (import.meta.env.VITE_MOCK_API) {
     throw new Error();
   }
@@ -22,10 +22,9 @@ export async function put(takeoutTime: string): Promise<Order | undefined> {
       takeoutTime: takeoutTime,
     }),
   });
-  const json = await response.json();
+  const order = await response.json();
 
-  const order = json.items[0];
-  order.takeoutTime = new Date(takeoutTime);
+  order.takeoutTime = order.takeoutTime ? new Date(order.takeoutTime) : null;
   return order;
 }
 
@@ -49,7 +48,7 @@ export async function load(): Promise<Order[] | undefined> {
   const orders = json.items;
   return orders.map((order: ApiOrder) => ({
     ...order,
-    takeoutTime: new Date(order.takeoutTime),
+    takeoutTime: order.takeoutTime? new Date(order.takeoutTime): null,
   }));
 }
 
@@ -75,6 +74,6 @@ export async function loadOne(id: Order["id"]): Promise<Order | undefined> {
 
   return {
     ...json,
-    takeoutTime: new Date(json.takeoutTime),
+    takeoutTime: json.takeoutTime? new Date(json.takeoutTime): null,
   };
 }

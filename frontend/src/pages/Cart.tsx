@@ -5,19 +5,24 @@ import { useCartStore } from "@/store/cart";
 import { useCacheStore } from "@/store/cache";
 import { Fragment, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
+import LoadingState from "@/types/LoadingState";
+import LoadingIcon from "@/components/LoadingIcon";
+import { put } from "@/api/orders";
 
 export default () => {
   const navigate = useNavigate();
-  const catalogue = useCacheStore();
+  const cache = useCacheStore();
   const cart = useCartStore();
   const auth = useAuthStore();
+  const [state, setState] = useState(LoadingState.ok);
 
   const now = new Date();
   const nowString = `${now.getHours()}:${now.getMinutes()}`;
-  const [timeValue, setTimeValue] = useState(
-    `${now.getHours()}:${now.getMinutes()}`
-  );
+  const [timeValue, setTimeValue] = useState<string | undefined>();
   const cookBy = useMemo(() => {
+    if (!timeValue) {
+      return;
+    }
     const hours = parseInt(timeValue.slice(0, 2));
     const minutes = parseInt(timeValue.slice(3));
     const to = now;
@@ -29,31 +34,38 @@ export default () => {
   const sum = useMemo(() => {
     let sum = 0;
     for (let item of Object.entries(cart.cart)) {
-      if (item[0] in catalogue.dishes) {
-        sum += catalogue.dishes[item[0]].price * item[1];
+      if (item[0] in cache.dishes) {
+        sum += cache.dishes[item[0]].price * item[1];
       }
     }
 
     return sum;
-  }, [catalogue.dishes, cart.cart]);
+  }, [cache.dishes, cart.cart]);
 
   const confirmOrder = () => {
     if (!auth.loggedIn) {
       navigate("/login");
       return;
     }
-    const params = new URLSearchParams({
-      takeoutTime: cookBy.toISOString(),
-    });
-    navigate(`/order-done?${params}`, { replace: true });
-  };
+    setState(LoadingState.loading)
+    put(cookBy?.toISOString() ?? null).then((order) => {
+      if (!order) {
+        navigate(`/order/500?new=1`);
+      }
+      cache.setCachedOrders([order!]);
+      navigate(`/order/${order!.id}?new=1`);
+    }).catch((e) => {
+      console.error(e)
+      navigate('/order/500?new=1');
+    })
+ };
 
   return (
     <>
       <div>
         <h1 className="pb-8">Корзина</h1>
         {Object.entries(cart.cart).map(([dishId, count]) => {
-          if (!(dishId in catalogue.dishes)) {
+          if (!(dishId in cache.dishes)) {
             return <Fragment key={dishId}></Fragment>;
           }
           const add = () => {
@@ -64,7 +76,7 @@ export default () => {
           };
           return (
             <DishInCart
-              dish={catalogue.dishes[dishId]}
+              dish={cache.dishes[dishId]}
               count={count}
               add={add}
               remove={remove}
@@ -85,9 +97,10 @@ export default () => {
             onChange={(e) => setTimeValue(e.target.value)}
           />
         </div>
-        <Button color="primary" onClick={confirmOrder} className="w-full">
+        {state === LoadingState.ok && <Button color="primary" onClick={confirmOrder} className="w-full">
           {`Заказать за ${sum.toLocaleString("ru-RU")} ₽`}
-        </Button>
+        </Button>}
+        {state === LoadingState.loading && <LoadingIcon />}
       </div>
     </>
   );
