@@ -16,6 +16,6 @@ class ShoppingCart(Base): ...
 class Order(Base):
     id: OrderID
     user_id: UserID
-    items: OrderItem
+    items: list[OrderItem]
     status: OrderStatus
     takeout_time: datetime
