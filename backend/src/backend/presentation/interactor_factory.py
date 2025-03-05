@@ -6,6 +6,7 @@ from src.backend.application.common.authorization import AccessTokenI
 from src.backend.application.get_categories_list import GetCategoriesList
 from src.backend.application.get_dishes_list import GetDishshesList
 from src.backend.application.orders.create_order import CreateOrder
+from src.backend.application.orders.get_all_orders_for_today import GetAllOrdersForToday
 from src.backend.application.orders.get_orders_by_id import GetOrderByID
 from src.backend.application.orders.get_orders_list import GetOrdersList
 from src.backend.application.shopping_cart.add_to_shopping_cart_items import (
@@ -56,6 +57,12 @@ class InteractorFactory(ABC):
 
     @abstractmethod
     def get_order_by_id(self, token: AccessTokenI) -> ContextManager[GetOrderByID]:
+        raise NotImplementedError
+
+    @abstractmethod
+    def get_all_orders_for_today(
+        self, token: AccessTokenI
+    ) -> ContextManager[GetAllOrdersForToday]:
         raise NotImplementedError
 
     @abstractmethod

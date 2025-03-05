@@ -1,19 +1,30 @@
+from asyncio import sleep
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
+from fastapi.responses import StreamingResponse
 
+from backend.application.orders.get_all_orders_for_today import (
+    GetAllOrderForTodayDTO,
+    GetAllOrderForTodayResultDTO,
+)
 from backend.application.orders.get_orders_by_id import (
     GetOrderByIdDTO,
     GetOrderByIdResultDTO,
 )
 from backend.domain.aggregates import OrderID
+from backend.domain.value_objects import OrderStatus
 from src.backend.application.orders.create_order import (
     CreateOrderDTO,
     CreateOrderResultDTO,
 )
 from src.backend.application.orders.get_orders_list import GetOrdersListResultDTO
 from src.backend.ioc import IoC
-from src.backend.presentation.dependencies import AccessToken, provide_access_token
+from src.backend.presentation.dependencies import (
+    AccessToken,
+    provide_access_token,
+    provide_admin_access_token,
+)
 
 orders_router = APIRouter(prefix="")
 
@@ -30,6 +41,26 @@ async def get_orders_list(
 ):
     with ioc.get_orders_list(access_token) as get_orders_list_interactor:
         return await get_orders_list_interactor()
+
+
+# TODO: make it SSE
+@orders_router.get(
+    "/orders/today",
+    tags=["Staff"],
+    response_model=GetAllOrderForTodayResultDTO,
+    summary="Get todays orders",
+)
+async def get_todays_orders(
+    ioc: Annotated[IoC, Depends()],
+    access_token: Annotated[AccessToken, Depends(provide_admin_access_token)],
+    status: OrderStatus,
+):
+    with ioc.get_all_orders_for_today(
+        access_token
+    ) as get_all_orders_for_today_interactor:
+        return await get_all_orders_for_today_interactor(
+            GetAllOrderForTodayDTO(status=status)
+        )
 
 
 @orders_router.get(
