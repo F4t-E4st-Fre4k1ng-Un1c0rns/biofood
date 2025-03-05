@@ -20,7 +20,7 @@ export default ({
   showPrice,
 }: Props) => {
   return (
-    <div className="flex w-full max-w-full justify-between flex-col sm:flex-row gap-4 pb-8">
+    <div className="flex w-full max-w-full justify-between flex-col sm:flex-row gap-4 pb-4">
       <div className="flex gap-4 items-center">
         <img
           src={

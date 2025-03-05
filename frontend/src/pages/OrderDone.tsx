@@ -10,6 +10,8 @@ import { uuidToOrderNumber } from "@/utils/uuidToOrderNumber";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router";
 
+const REFRESH_TIMEOUT = parseInt(import.meta.env.VITE_ORDER_REFRESH_TIMEOUT ?? '1000');
+
 export default () => {
   const cache = useCacheStore();
   const [state, setState] = useState(LoadingState.loading);
@@ -30,6 +32,17 @@ export default () => {
       cache.fetchOrder(id).catch(() => setState(LoadingState.error));
     }
   }, [cache.orders[id]]);
+
+  useEffect(() => {
+    if (state == LoadingState.ok) {
+      const intervalId = setInterval(() => {
+        cache.fetchOrder(id);
+      }, REFRESH_TIMEOUT)
+
+      return () => clearInterval(intervalId);
+    }
+  }, [state]);
+
   return (
     <div className="flex flex-col gap-2">
       <h1>{params.get("new") ? "Спасибо за заказ!" : "Заказ"}</h1>
