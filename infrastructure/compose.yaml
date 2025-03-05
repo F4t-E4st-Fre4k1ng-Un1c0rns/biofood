@@ -156,9 +156,9 @@ services:
       APP_ENV: "production"
       APP_INSTALLATION: "opensource"
       AUTH_POLICY: "disabled"
-      US_ENDPOINT: "http://us:8083"
-      BI_API_ENDPOINT: "http://control-api:8080"
-      BI_DATA_ENDPOINT: "http://data-api:8080"
+      US_ENDPOINT: "http://datalens-us:8083"
+      BI_API_ENDPOINT: "http://datalens-control-api:8080"
+      BI_DATA_ENDPOINT: "http://datalens-data-api:8080"
       US_MASTER_TOKEN: "fake-us-master-token"
       NODE_EXTRA_CA_CERTS: "/usr/local/share/ca-certificates/cert.pem"
       HC: ${HC:-0}
