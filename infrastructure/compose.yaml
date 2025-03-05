@@ -18,6 +18,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
   backend:
+    container_name: biofood-backend
     build:
       context: ../backend
       target: dev
@@ -36,6 +37,7 @@ services:
       JWT_ALGORITHMS: ${JWT_ALGORITHMS}
 
   s3:
+    container_name: biofood-s3
     image: minio/minio
     env_file: .env
     command: |
@@ -49,12 +51,13 @@ services:
       - 9000:9000
       - 9001:9001
     volumes:
-      - minio_storage
+      - minio_storage:/data
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
   
   s3-setup:
+    container_name: biofood-s3-setup
     image: minio/mc
     env_file: .env
     depends_on:
@@ -85,10 +88,10 @@ services:
       DL_CRY_ACTUAL_KEY_ID: key_1
       DL_CRY_KEY_VAL_ID_key_1: "h1ZpilcYLYRdWp7Nk8X1M1kBPiUi8rdjz9oBfHyUKIk="
       RQE_SECRET_KEY: ""
-      US_HOST: "http://us:8083"
+      US_HOST: "http://datalens-us:8083"
       US_MASTER_TOKEN: "fake-us-master-token"
     depends_on:
-      - us
+      - datalens-us
 
   datalens-data-api:
     container_name: datalens-data-api
@@ -109,7 +112,7 @@ services:
       US_HOST: "http://us:8083"
       US_MASTER_TOKEN: "fake-us-master-token"
     depends_on:
-      - us
+      - datalens-us
 
 
   datalens-pg-us:
@@ -120,18 +123,18 @@ services:
       POSTGRES_USER: us
       POSTGRES_PASSWORD: us
     volumes:
-      - us_storage:/var/lib/postgresql/data
+      - datalens_us_storage:/var/lib/postgresql/data
 
   datalens-us:
     container_name: datalens-us
     image: ghcr.io/datalens-tech/datalens-us:0.310.0
     depends_on:
-      - pg-us
+      - datalens-pg-us
     environment:
       APP_INSTALLATION: "opensource"
       APP_ENV: "prod"
       MASTER_TOKEN: "fake-us-master-token"
-      POSTGRES_DSN_LIST: postgres://us:us@pg-us:5432/us_metadata
+      POSTGRES_DSN_LIST: postgres://us:us@datalens-pg-us:5432/us_metadata
       SKIP_INSTALL_DB_EXTENSIONS: ${METADATA_SKIP_INSTALL_DB_EXTENSIONS:-0}
       USE_DEMO_DATA: 0
       HC: ${HC:-0}
@@ -145,9 +148,9 @@ services:
     ports:
       - ${UI_PORT:-9999}:8080
     depends_on:
-      - us
-      - control-api
-      - data-api
+      - datalens-us
+      - datalens-control-api
+      - datalens-data-api
     environment:
       APP_MODE: "full"
       APP_ENV: "production"
@@ -162,6 +165,9 @@ services:
 
 volumes:
   database_storage:
+    name: biofood_database_storage
   minio_storage:
-  us_storage:
+    name: biofood_minio_storage
+  datalens_us_storage:
+    name: datalens_us_storage
 
