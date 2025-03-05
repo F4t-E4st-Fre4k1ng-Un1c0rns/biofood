@@ -2,20 +2,23 @@ import { load as loadCategories } from "@/api/categories";
 import { load as loadDishes } from "@/api/dishes";
 import Dish from "@/types/Dish";
 import LocalCategory from "@/types/LocalCategory";
+import Order from "@/types/Order";
 import { create } from "zustand";
 
-export interface CatalogueStore {
+export interface CacheStore {
   categories: LocalCategory[];
   dishes: Record<Dish["id"], Dish>;
+  orders: Record<Order['id'], Order>;
   loaded: boolean;
-  fetch: () => Promise<void>;
+  fetchCatalogue: () => Promise<void>;
 }
 
-export const useCatalogueStore = create<CatalogueStore>((set) => ({
+export const useCacheStore = create<CacheStore>((set) => ({
   categories: [],
   dishes: {},
+  orders: {},
   loaded: false,
-  fetch: async () => {
+  fetchCatalogue: async () => {
     set({
       loaded: false,
     });
@@ -54,4 +57,13 @@ export const useCatalogueStore = create<CatalogueStore>((set) => ({
       })
     );
   },
+  setCachedOrders: (orders: Order[]) => {
+    set((state) => ({
+      ...state,
+      orders: {
+        ...state.orders,
+        ...Object.fromEntries(orders.map((order) => [order.id, order])),
+      },
+    }));
+  }
 }));
