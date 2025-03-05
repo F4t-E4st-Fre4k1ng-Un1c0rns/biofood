@@ -2,13 +2,13 @@ import Button from "@/components/Button";
 import DishInCart from "@/components/DishInCart";
 import { useAuthStore } from "@/store/auth";
 import { useCartStore } from "@/store/cart";
-import { useCatalogueStore } from "@/store/catalogue";
+import { useCacheStore } from "@/store/cache";
 import { Fragment, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 
 export default () => {
   const navigate = useNavigate();
-  const catalogue = useCatalogueStore();
+  const catalogue = useCacheStore();
   const cart = useCartStore();
   const auth = useAuthStore();
 

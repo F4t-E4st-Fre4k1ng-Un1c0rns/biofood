@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import "./index.css";
 import Catalogue from "./pages/Catalogue";
 import Cart from "./pages/Cart";
-import { useCatalogueStore } from "./store/catalogue";
+import { useCacheStore } from "./store/cache";
 import { lazy, Suspense, useEffect } from "react";
 import { useCartStore } from "./store/cart";
 import OrderDone from "./pages/OrderDone";
@@ -14,11 +14,11 @@ const LoginDone = lazy(() => import("@/pages/LoginDone"));
 const Account = lazy(() => import("@/pages/Account"));
 
 export function App() {
-  const catalogue = useCatalogueStore();
+  const catalogue = useCacheStore();
   const cart = useCartStore();
 
   useEffect(() => {
-    catalogue.fetch();
+    catalogue.fetchCatalogue();
     cart.fetch();
   }, []);
 

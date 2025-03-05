@@ -1,8 +1,8 @@
 import Category from "@/components/Category";
-import { useCatalogueStore } from "@/store/catalogue";
+import { useCacheStore } from "@/store/cache";
 
 export default () => {
-  const catalogue = useCatalogueStore();
+  const catalogue = useCacheStore();
   return (
     <>
       {catalogue.categories.map((category) => (

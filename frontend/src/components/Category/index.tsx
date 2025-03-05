@@ -1,6 +1,6 @@
 import LocalCategory from "@/types/LocalCategory";
 import LoadingIcon from "../LoadingIcon";
-import { useCatalogueStore } from "@/store/catalogue";
+import { useCacheStore } from "@/store/cache";
 import DishPreview from "../DishPreview";
 import { useCartStore } from "@/store/cart";
 
@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default ({ category, id }: Props) => {
-  const catalogue = useCatalogueStore();
+  const catalogue = useCacheStore();
   const cart = useCartStore();
   return (
     <>
