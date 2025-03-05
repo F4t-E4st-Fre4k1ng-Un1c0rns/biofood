@@ -6,6 +6,7 @@ from pydantic import EmailStr, HttpUrl, field_validator
 
 from src.backend.domain.common import Base
 from src.backend.domain.value_objects import UserRole
+from src.backend.settings import settings
 
 UserID = NewType("UserID", UUID)
 CategoryID = NewType("CategoryID", UUID)
@@ -32,6 +33,11 @@ class Dish(Base):
     price: Decimal
     description: Optional[str]
     weight: Optional[int]
+
+    @field_validator("banner_path")
+    @classmethod
+    def make_url(cls, banner_path: str) -> str:
+        return settings.MINIO_BUCKET_URL+banner_path
 
 
 class ShoppingCartItem(Base):
