@@ -52,7 +52,9 @@ class OrderORM(Base, UUIDMixin, TimestampMixin):
     __tablename__ = "orders"
     user_id: Mapped[UUID] = mapped_column(ForeignKey(UserORM.id))
     status: Mapped[OrderStatus]
-    takeout_time: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=True)
+    takeout_time: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
     items: Mapped[list["OrderItemORM"]] = relationship(lazy="selectin")
 
 
