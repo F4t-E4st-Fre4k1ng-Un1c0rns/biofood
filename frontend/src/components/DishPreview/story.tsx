@@ -25,6 +25,21 @@ export const DishPreviewStory: Story = {
   },
 };
 
+export const DishPreviewWithoutBanner: Story = {
+  args: {
+    dish: {
+      id: "hi!",
+      name: "Еда",
+      banner: undefined,
+      price: 1000,
+      description: "Очень вкусная еда",
+      category: "Food",
+      weight: 1000,
+    },
+    count: 0,
+  },
+};
+
 export const Long: Story = {
   args: {
     dish: {
