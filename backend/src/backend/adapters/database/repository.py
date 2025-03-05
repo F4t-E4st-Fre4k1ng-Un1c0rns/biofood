@@ -247,7 +247,6 @@ class OrderRepository(SQLAlchemyRepository[Order]):
     model = OrderORM
 
     async def _map_to_domain_model(self, orm_model) -> Order:
-        print(orm_model.__dict__)
         return Order.model_validate(orm_model)
 
 

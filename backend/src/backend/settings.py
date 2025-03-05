@@ -13,6 +13,8 @@ class Settings(BaseSettings):
     JWT_SECRET: str
     JWT_ALGORITHMS: list[str] = ["HS256"]
 
+    # SSE_TIME_GAP: int # time in seconds
+
     CORS_ALLOW_ORIGINS: list[str] = ["*"]
     CORS_ALLOW_METHODS: list[str] = ["*"]
     CORS_ALLOW_HEADERS: list[str] = ["*"]

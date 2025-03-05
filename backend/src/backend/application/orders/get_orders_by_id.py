@@ -25,6 +25,6 @@ class GetOrderByID(Interactor[GetOrderByIdDTO, GetOrderByIdResultDTO]):
         async with self.uow:
             by_filter = {"id": data.id}
             order = await self.uow.order.find_one(by_filter=by_filter)
-            if order.user_id != self.token.user_id:
+            if order.user_id.hex != self.token.user_id:
                 raise AuthorizationError("You have no right to access this order")
             return GetOrderByIdResultDTO(order)
