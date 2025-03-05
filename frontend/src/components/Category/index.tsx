@@ -18,7 +18,7 @@ export default ({ category, id }: Props) => {
         {category.name}
       </h1>
       {!category.loaded && <LoadingIcon />}
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(20rem,auto))] gap-4 justify-around">
+      <div className="grid grid-cols-[repeat(auto-fill,min(25rem,100%))] gap-4 justify-around">
         {category.loaded &&
           category.dishes.map((dishId) => {
             const add = () => {

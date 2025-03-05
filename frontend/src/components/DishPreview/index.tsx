@@ -21,16 +21,19 @@ export default ({ dish, count, add, remove }: Props) => {
         }}
       />
       <div className="flex flex-col gap-2 p-2">
-        <p className="text-strong line-clamp-1">{dish.name}</p>
-        <p className="h-18 line-clamp-3">{dish.description}</p>
+        <p className="text-strong h-20">{dish.name}</p>
         <p>
           <span className="text-lg">
             {dish.price.toLocaleString("ru-RU")} ₽
           </span>
-          <span className="m-1">/</span>
-          <span className="text-sm">
-            {dish.weight?.toLocaleString("ru-RU")} г
-          </span>
+          {dish.weight && (
+            <>
+              <span className="m-1">/</span>
+              <span className="text-sm">
+                {dish.weight?.toLocaleString("ru-RU")} г
+              </span>
+            </>
+          )}
         </p>
         <AddToCart count={count} add={add} remove={remove} />
       </div>
