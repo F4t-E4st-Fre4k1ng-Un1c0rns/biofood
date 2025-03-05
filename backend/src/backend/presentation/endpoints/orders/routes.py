@@ -4,6 +4,10 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import StreamingResponse
 
+from backend.application.orders.change_order_status import (
+    ChangeOrderStatusDTO,
+    ChangeOrderStatusResultDTO,
+)
 from backend.application.orders.get_all_orders_for_today import (
     GetAllOrderForTodayDTO,
     GetAllOrderForTodayResultDTO,
@@ -14,6 +18,7 @@ from backend.application.orders.get_orders_by_id import (
 )
 from backend.domain.aggregates import OrderID
 from backend.domain.value_objects import OrderStatus
+from backend.presentation.endpoints.orders.schemas import ChangeOrderStatusInput
 from src.backend.application.orders.create_order import (
     CreateOrderDTO,
     CreateOrderResultDTO,
@@ -76,6 +81,24 @@ async def get_order_by_id(
 ):
     with ioc.get_order_by_id(access_token) as get_order_by_id_interactor:
         return await get_order_by_id_interactor(GetOrderByIdDTO(id=id))
+
+
+@orders_router.patch(
+    "/orders/{id}",
+    tags=["Staff"],
+    response_model=ChangeOrderStatusResultDTO,
+    summary="Change order status",
+)
+async def change_order_status(
+    ioc: Annotated[IoC, Depends()],
+    access_token: Annotated[AccessToken, Depends(provide_access_token)],
+    id: OrderID,
+    data: ChangeOrderStatusInput,
+):
+    with ioc.change_order_status(access_token) as change_order_status_interactor:
+        return await change_order_status_interactor(
+            ChangeOrderStatusDTO(id=id, new_status=data.status)
+        )
 
 
 @orders_router.post(

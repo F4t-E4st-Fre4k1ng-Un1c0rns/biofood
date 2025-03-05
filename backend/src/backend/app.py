@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.backend.presentation.endpoints.auth import auth_router
 from src.backend.presentation.endpoints.categories import categories_router
 from src.backend.presentation.endpoints.dishes import dishes_router
-from src.backend.presentation.endpoints.orders import orders_router
+from src.backend.presentation.endpoints.orders.routes import orders_router
 from src.backend.presentation.endpoints.shopping_cart import shopping_cart_router
 
 from .settings import settings
