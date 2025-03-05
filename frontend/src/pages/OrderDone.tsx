@@ -17,7 +17,11 @@ export default () => {
   const [order, setOrder] = useState<Order | undefined>();
 
   useEffect(() => {
-    console.log(cache.orders);
+    if (id === "500") {
+      setState(LoadingState.error);
+      return;
+    }
+
     if (cache.orders[id]) {
       setOrder(cache.orders[id]);
       setState(LoadingState.ok);
@@ -32,7 +36,7 @@ export default () => {
       {state == LoadingState.ok && order && (
         <>
           <h2>Ваш заказ:</h2>
-          <p>Будет готов к {order.takeoutTime.toLocaleDateString("ru-RU")}</p>
+          <p>Будет готов {order.takeoutTime? <>к {order.takeoutTime.toLocaleString("ru-RU")}</>: "скоро"}</p>
           <OrderStatus status={order.status} />
           {order.items.map((item) => {
             return (
