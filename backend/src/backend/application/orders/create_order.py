@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
+from backend.domain.exceptions import IntegrityCompromised
 from pydantic import AwareDatetime, RootModel
 
 from src.backend.application.common.authorization import AccessTokenI
@@ -56,6 +57,9 @@ class CreateOrder(Interactor[CreateOrderDTO, CreateOrderResultDTO]):
         items = await self.uow.shopping_cart.find_many(
             by_filter={"user_id": self.token.user_id}
         )
+        if len(items) == 0:
+            raise IntegrityCompromised("You can not create order with empty shopping cart")
+
         for item in items:
             data = {
                 "order_id": order_id,
