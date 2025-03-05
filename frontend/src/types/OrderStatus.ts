@@ -1,10 +1,10 @@
 enum OrderStatus {
-  pending,
-  accepted,
-  canceled,
-  cooking,
-  ready,
-  taken,
+  pending = "pending",
+  accepted = "accepted",
+  canceled = "canceled",
+  cooking = "cooking",
+  ready = "ready",
+  taken = "taken",
 }
 
 export default OrderStatus;
