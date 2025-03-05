@@ -27,6 +27,23 @@ export const InCart: Story = {
   },
 };
 
+export const InCartWithoutBanner: Story = {
+  args: {
+    dish: {
+      id: "hi!",
+      name: "Еда",
+      banner: undefined,
+      price: 1000,
+      description: "Очень вкусная еда",
+      category: "Food",
+      weight: 1000,
+    },
+    count: 0,
+    showChangeButton: true,
+    showPrice: true,
+  },
+};
+
 export const LongInCart: Story = {
   args: {
     dish: {
