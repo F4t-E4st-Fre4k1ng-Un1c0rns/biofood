@@ -31,4 +31,5 @@ class ChangeOrderStatus(Interactor[ChangeOrderStatusDTO, ChangeOrderStatusResult
             order = await self.uow.order.update_one(
                 data.id, {"status": data.new_status}
             )
-            return ChangeOrderStatusResultDTO(order)
+            await self.uow.commit()
+        return ChangeOrderStatusResultDTO(order)
