@@ -14,10 +14,10 @@ export default ({ dish, count, add, remove }: Props) => {
       <div
         className="h-40 w-full bg-cover bg-center rounded-t-xl"
         style={{
-          backgroundImage: `url(${
+          backgroundImage: `url("${
             dish.banner ??
             "https://images.unsplash.com/photo-1531234799389-dcb7651eb0a2?q=80&w=600&auto=format"
-          })`,
+          }")`,
         }}
       />
       <div className="flex flex-col gap-2 p-2">

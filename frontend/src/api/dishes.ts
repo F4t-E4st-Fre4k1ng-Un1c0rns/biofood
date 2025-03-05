@@ -14,5 +14,8 @@ export async function load(category_id: Category["id"]): Promise<Dish[]> {
     `${import.meta.env.VITE_API_BASE_URL}/dishes?${params}`
   );
   const json = await response.json();
-  return json.items;
+  return json.items.map((dish: Dish & { bannerPath: string }) => ({
+    ...dish,
+    banner: dish.bannerPath,
+  }));
 }
