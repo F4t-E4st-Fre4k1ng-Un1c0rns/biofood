@@ -30,7 +30,7 @@ from src.backend.application.common.repository import Repository
 from src.backend.application.common.sentinel import _sentinel
 from src.backend.domain.aggregates import Order
 from src.backend.domain.exceptions import IntegrityCompromised, NotFound
-from src.backend.domain.models import Category, Dish, ShoppingCartItem, User
+from src.backend.domain.models import Category, Dish, OrderItem, ShoppingCartItem, User
 
 
 class SQLAlchemyRepository[ModelT](Repository[ModelT]):
@@ -247,12 +247,13 @@ class OrderRepository(SQLAlchemyRepository[Order]):
     model = OrderORM
 
     async def _map_to_domain_model(self, orm_model) -> Order:
+        print(orm_model.__dict__)
         return Order.model_validate(orm_model)
 
 
 # TODO: DELETE And make aggregates
-class OrderItemRepository(SQLAlchemyRepository[Order]):
+class OrderItemRepository(SQLAlchemyRepository[OrderItem]):
     model = OrderItemORM
 
-    async def _map_to_domain_model(self, orm_model) -> Order:
-        return Order.model_validate(orm_model)
+    async def _map_to_domain_model(self, orm_model) -> OrderItem:
+        return OrderItem.model_validate(orm_model)

@@ -3,6 +3,7 @@ from decimal import Decimal
 from uuid import UUID
 
 from sqlalchemy import Numeric, SmallInteger, String, UniqueConstraint
+from sqlalchemy.types import DateTime
 from sqlalchemy.ext.asyncio import AsyncAttrs
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.orm.properties import ForeignKey
@@ -50,7 +51,8 @@ class OrderORM(Base, UUIDMixin, TimestampMixin):
     __tablename__ = "orders"
     user_id: Mapped[UUID] = mapped_column(ForeignKey(UserORM.id))
     status: Mapped[OrderStatus]
-    takeout_time: Mapped[datetime] = mapped_column(nullable=True)
+    takeout_time: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=True)
+    items: Mapped[list["OrderItemORM"]] = relationship(lazy="selectin")
 
 
 class OrderItemORM(Base, UUIDMixin):
