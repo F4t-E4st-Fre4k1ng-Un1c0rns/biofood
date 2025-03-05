@@ -9,6 +9,7 @@ interface Props {
 
   showChangeButton?: boolean;
   showPrice?: boolean;
+  showImage?: boolean;
 }
 
 export default ({
@@ -18,18 +19,21 @@ export default ({
   remove,
   showChangeButton,
   showPrice,
+  showImage,
 }: Props) => {
   return (
     <div className="flex w-full max-w-full justify-between flex-col sm:flex-row gap-4 pb-4">
       <div className="flex gap-4 items-center">
-        <img
-          src={
-            dish.banner ??
-            "https://images.unsplash.com/photo-1531234799389-dcb7651eb0a2?q=80&w=200&auto=format"
-          }
-          alt={dish.name}
-          className="size-20 rounded-2xl object-cover"
-        />
+        {showImage && (
+          <img
+            src={
+              dish.banner ??
+              "https://images.unsplash.com/photo-1531234799389-dcb7651eb0a2?q=80&w=200&auto=format"
+            }
+            alt={dish.name}
+            className="size-20 rounded-2xl object-cover"
+          />
+        )}
         <div>
           <h2>{dish.name}</h2>
           <p>{dish.description}</p>

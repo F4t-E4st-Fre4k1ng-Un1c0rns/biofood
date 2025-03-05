@@ -4,8 +4,9 @@ import { create } from "zustand";
 
 export interface AuthStore {
   loggedIn: boolean;
-  user: User | null;
+  user: Partial<User> | null;
   auth: (token: string) => Promise<User>;
+  loginByToken: (token: string) => void;
   logout: () => void;
 }
 
@@ -20,6 +21,16 @@ export const useAuthStore = create<AuthStore>((set) => ({
     });
     localStorage.setItem("user", JSON.stringify(user));
     return user;
+  },
+  loginByToken: (token: string) => {
+    set({
+      loggedIn: true,
+      user: {
+        token,
+        role: "staff",
+      },
+    });
+    localStorage.setItem("user", JSON.stringify({ token }));
   },
   logout: () => {
     set({

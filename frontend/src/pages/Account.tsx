@@ -9,7 +9,7 @@ import LoadingState from "@/types/LoadingState";
 import Order from "@/types/Order";
 import { uuidToOrderNumber } from "@/utils/uuidToOrderNumber";
 import { Fragment, useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export default () => {
   const navigate = useNavigate();
@@ -42,6 +42,21 @@ export default () => {
         Выйти
       </Button>
 
+      {auth.user?.role === "staff" && (
+        <>
+          <Link to="/pos/chef" className="block w-full">
+            <Button color="accent" className="w-full">
+              Панель повара
+            </Button>
+          </Link>
+          <Link to="/account/qr/" className="block w-full">
+            <Button color="accent" className="w-full">
+              QR для входа в панель повора
+            </Button>
+          </Link>
+        </>
+      )}
+
       <h1>История заказов</h1>
       {ordersState == LoadingState.loading && <LoadingIcon />}
       {ordersState == LoadingState.error && <Error code={500} />}
@@ -53,8 +68,7 @@ export default () => {
                 Заказ №{uuidToOrderNumber(order.id)}
                 {order.takeoutTime && (
                   <> к {order.takeoutTime.toLocaleString("ru-RU")}</>
-                )}
-                {" "}
+                )}{" "}
                 <OrderStatus status={order.status} />
               </h2>
 
@@ -65,6 +79,7 @@ export default () => {
                     count={item.amount}
                     showChangeButton={false}
                     showPrice={true}
+                    showImage={true}
                     key={item.dish.id}
                   />
                 );

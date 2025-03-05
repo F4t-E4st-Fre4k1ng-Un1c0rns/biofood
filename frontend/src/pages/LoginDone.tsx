@@ -18,11 +18,9 @@ export default () => {
     }
     auth.auth(params.get("access_token")!).then((user) => {
       cart.restoreCart();
-      if (user.role === "client") {
-        navigate("/cart", {
-          replace: true,
-        });
-      }
+      navigate("/cart", {
+        replace: true,
+      });
     });
   }, []);
 

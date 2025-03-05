@@ -1,7 +1,7 @@
 import { useAuthStore } from "@/store/auth";
 import Order from "@/types/Order";
 
-type ApiOrder = Order & { takeoutTime: string };
+type ApiOrder = Order & { takeoutTime: string | null };
 
 export async function put(
   takeoutTime: string | null
