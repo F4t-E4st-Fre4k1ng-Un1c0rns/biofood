@@ -27,9 +27,7 @@ async def add_records(data: list[dict], dish_id: UUID, dish_name: str):
 
 async def script():
 
-    print("START 30\n"*20)
     await drop_analyze_table()
-    print("START 32\n"*20)
 
     async with session_maker() as session:
         dish_info = [(record.id, record.name) for record in (await session.execute(select(DishORM))).scalars()]
@@ -52,8 +50,4 @@ async def script():
                 forecast = analyze_sales(data_for_forecast)
                 await add_records(forecast, dish_id, dish_name)
             except Exception as e:
-                print(dish_id, dish_name, '\n')
-                print(type(e), '\n')
-                print(e)
-                print('-----\n')
                 await drop_analyze_table({"dish_id": dish_id})

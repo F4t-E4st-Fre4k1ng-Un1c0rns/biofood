@@ -8,7 +8,6 @@ def analyze_sales(data: dict[str, date|float]) -> list[dict[str, date|float]]:
   df['ds'] = pd.to_datetime(df['date'])
   df['y'] = df['sales']
   for column in df.columns:
-    # df = df.fillna({column: df[column].mean()})
     df = df.fillna({column: 0})
 
   model = Prophet()
@@ -16,9 +15,6 @@ def analyze_sales(data: dict[str, date|float]) -> list[dict[str, date|float]]:
 
   future = model.make_future_dataframe(periods=7)
   forecast = model.predict(future)
-
-  # model.plot(forecast)
-
   return [
     {
         'ds': row['ds'].to_pydatetime().date(),
