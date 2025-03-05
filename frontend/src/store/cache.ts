@@ -1,5 +1,6 @@
 import { load as loadCategories } from "@/api/categories";
 import { load as loadDishes } from "@/api/dishes";
+import { loadOne as loadOrder } from "@/api/orders";
 import Dish from "@/types/Dish";
 import LocalCategory from "@/types/LocalCategory";
 import Order from "@/types/Order";
@@ -8,9 +9,11 @@ import { create } from "zustand";
 export interface CacheStore {
   categories: LocalCategory[];
   dishes: Record<Dish["id"], Dish>;
-  orders: Record<Order['id'], Order>;
+  orders: Record<Order["id"], Order>;
   loaded: boolean;
   fetchCatalogue: () => Promise<void>;
+  setCachedOrders: (orders: Order[]) => void;
+  fetchOrder: (id: Order["id"]) => Promise<void>;
 }
 
 export const useCacheStore = create<CacheStore>((set) => ({
@@ -65,5 +68,18 @@ export const useCacheStore = create<CacheStore>((set) => ({
         ...Object.fromEntries(orders.map((order) => [order.id, order])),
       },
     }));
-  }
+  },
+  fetchOrder: async (id: Order["id"]) => {
+    const order = await loadOrder(id);
+    if (!order) {
+      return;
+    }
+    set((state) => ({
+      ...state,
+      orders: {
+        ...state.orders,
+        [id]: order,
+      },
+    }));
+  },
 }));

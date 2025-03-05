@@ -30,7 +30,7 @@ export function App() {
           <Routes>
             <Route path="/" element={<Catalogue />} />
             <Route path="/cart/" element={<Cart />} />
-            <Route path="/order-done/" element={<OrderDone />} />
+            <Route path="/order/:id/" element={<OrderDone />} />
             <Route path="/login/" element={<Login />} />
             <Route path="/login-done/" element={<LoginDone />} />
             <Route path="/account/" element={<Account />} />

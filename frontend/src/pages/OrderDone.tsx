@@ -3,33 +3,31 @@ import DishInCart from "@/components/DishInCart";
 import Error from "@/components/Error";
 import LoadingIcon from "@/components/LoadingIcon";
 import OrderStatus from "@/components/OrderStatus";
-import { useCartStore } from "@/store/cart";
+import { useCacheStore } from "@/store/cache";
 import LoadingState from "@/types/LoadingState";
 import Order from "@/types/Order";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router";
+import { useParams, useSearchParams } from "react-router";
 
 export default () => {
-  const cart = useCartStore();
+  const cache = useCacheStore();
   const [state, setState] = useState(LoadingState.loading);
-  const [params, setParams] = useSearchParams();
+  const [params] = useSearchParams();
+  const { id } = useParams() as { id: Order["id"] };
   const [order, setOrder] = useState<Order | undefined>();
 
   useEffect(() => {
-    if (!params.get("done")) {
-      cart.clearCart();
-      put(params.get("takeoutTime") ?? "").then((order) => {
-        setState(LoadingState.ok);
-        setOrder(order);
-      });
-      setParams("done=1");
+    console.log(cache.orders);
+    if (cache.orders[id]) {
+      setOrder(cache.orders[id]);
+      setState(LoadingState.ok);
     } else {
-      setState(LoadingState.error);
+      cache.fetchOrder(id).catch(() => setState(LoadingState.error));
     }
-  }, []);
+  }, [cache.orders[id]]);
   return (
     <div className="flex flex-col gap-8">
-      <h1>Спасибо за заказ!</h1>
+      <h1>{params.get("new") ? "Спасибо за заказ!" : "Заказ"}</h1>
       {state == LoadingState.loading && <LoadingIcon />}
       {state == LoadingState.ok && order && (
         <>
