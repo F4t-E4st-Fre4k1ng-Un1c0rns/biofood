@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import AwareDatetime
+from pydantic import AwareDatetime, RootModel
 
 from src.backend.application.common.authorization import AccessTokenI
 from src.backend.application.common.interactor import Interactor
@@ -16,8 +16,8 @@ class CreateOrderDTO(DomainModelBase):
     takeout_time: Optional[AwareDatetime]
 
 
-class CreateOrderResultDTO(DomainModelBase):
-    items: list[Order]
+class CreateOrderResultDTO(RootModel):
+    root: Order
 
 
 class CreateOrder(Interactor[CreateOrderDTO, CreateOrderResultDTO]):
@@ -32,10 +32,9 @@ class CreateOrder(Interactor[CreateOrderDTO, CreateOrderResultDTO]):
             await self.__add_items_from_shopping_cart_to_order(order.id)
             await self.__clear_shopping_cart()
             await self.uow.commit()
-            orders_list = await self.uow.order.find_many(
-                by_filter={"user_id": self.token.user_id}
-            )
-            return CreateOrderResultDTO(items=list(orders_list))
+
+            order = await self.uow.order.find_one(by_filter={"id": order.id})
+            return CreateOrderResultDTO(root=order)
 
     async def __get_users_shopping_cart_items(self) -> list[ShoppingCartItem]:
         by_filter = {"user_id": self.token.user_id}
