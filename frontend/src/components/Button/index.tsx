@@ -3,7 +3,7 @@ import { MouseEventHandler } from "react";
 interface Props {
   children: string;
   color: "primary" | "secondary" | "accent";
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
   className?: string;
 }
 

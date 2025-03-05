@@ -84,6 +84,7 @@ export default () => {
               remove={remove}
               showChangeButton={true}
               showPrice={true}
+              showImage={true}
               key={dishId}
             />
           );

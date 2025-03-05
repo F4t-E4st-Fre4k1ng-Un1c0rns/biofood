@@ -10,7 +10,9 @@ import { uuidToOrderNumber } from "@/utils/uuidToOrderNumber";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router";
 
-const REFRESH_TIMEOUT = parseInt(import.meta.env.VITE_ORDER_REFRESH_TIMEOUT ?? '1000');
+const REFRESH_TIMEOUT = parseInt(
+  import.meta.env.VITE_ORDER_REFRESH_TIMEOUT ?? "1000"
+);
 
 export default () => {
   const cache = useCacheStore();
@@ -37,7 +39,7 @@ export default () => {
     if (state == LoadingState.ok) {
       const intervalId = setInterval(() => {
         cache.fetchOrder(id);
-      }, REFRESH_TIMEOUT)
+      }, REFRESH_TIMEOUT);
 
       return () => clearInterval(intervalId);
     }
@@ -66,6 +68,7 @@ export default () => {
                 count={item.amount}
                 showChangeButton={false}
                 showPrice={true}
+                showImage={true}
               />
             );
           })}
