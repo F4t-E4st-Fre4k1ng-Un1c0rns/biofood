@@ -2,10 +2,11 @@ import { put } from "@/api/orders";
 import DishInCart from "@/components/DishInCart";
 import Error from "@/components/Error";
 import LoadingIcon from "@/components/LoadingIcon";
-import OrderStatus from "@/components/OrderStatus";
+import OrderStatusComponent from "@/components/OrderStatus";
 import { useCacheStore } from "@/store/cache";
 import LoadingState from "@/types/LoadingState";
 import Order from "@/types/Order";
+import OrderStatus from "@/types/OrderStatus";
 import { uuidToOrderNumber } from "@/utils/uuidToOrderNumber";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router";
@@ -38,6 +39,9 @@ export default () => {
   useEffect(() => {
     if (state == LoadingState.ok) {
       const intervalId = setInterval(() => {
+        if (cache.orders[id].status === OrderStatus.taken) {
+          return;
+        }
         cache.fetchOrder(id);
       }, REFRESH_TIMEOUT);
 
@@ -60,7 +64,7 @@ export default () => {
               "скоро"
             )}
           </p>
-          <OrderStatus status={order.status} />
+          <OrderStatusComponent status={order.status} />
           {order.items.map((item) => {
             return (
               <DishInCart

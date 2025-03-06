@@ -68,6 +68,9 @@ export default () => {
       <div>
         <h1 className="pb-8">Корзина</h1>
         {Object.entries(cart.cart).map(([dishId, count]) => {
+          if (!count) {
+            return;
+          }
           if (!(dishId in cache.dishes)) {
             return <Fragment key={dishId}></Fragment>;
           }
