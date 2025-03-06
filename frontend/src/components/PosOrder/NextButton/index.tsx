@@ -26,8 +26,8 @@ const NEXT_STATUS = {
 
 export default ({ status, setStatus }: Props) => {
   return (
-    <div>
-      {status == OrderStatus.pending && (
+    <div className="w-full flex justify-between mb-3">
+      {status == OrderStatus.pending ? (
         <Button
           color="secondary"
           className="mr-1"
@@ -35,6 +35,8 @@ export default ({ status, setStatus }: Props) => {
         >
           Отменить
         </Button>
+      ) : (
+        <div></div>
       )}
       <Button color="primary" onClick={() => setStatus(NEXT_STATUS[status])}>
         {ACCEPT_BUTTON_TEXT[status]}

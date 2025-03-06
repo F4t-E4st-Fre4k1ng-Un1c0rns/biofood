@@ -70,7 +70,7 @@ export default () => {
           </Button>
         </div>
       </header>
-      <div className="grid grid-cols-3 m-4">
+      <div className="grid grid-cols-3 m-4 gap-8">
         <div>
           <h1>Ожидают готовки</h1>
           {pendingOrders.map((order) => (
