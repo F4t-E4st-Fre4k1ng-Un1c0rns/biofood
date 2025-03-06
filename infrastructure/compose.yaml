@@ -35,6 +35,18 @@ services:
       MINIO_BUCKET_NAME: ${MINIO_BUCKET_NAME}
       JWT_SECRET: ${JWT_SECRET}
       JWT_ALGORITHMS: ${JWT_ALGORITHMS}
+    depends_on:
+      - database
+
+  cms:
+    container_name: biofood-cms
+    build: ../cms
+    ports:
+      - 8005:8000
+    environment:
+      POSTGRES_DSN: ${POSTGRES_DSN_BASE_BACKEND}/${POSTGRES_DB_CUSTOMER}
+    depends_on:
+      - database
 
   s3:
     container_name: biofood-s3
