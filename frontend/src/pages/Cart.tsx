@@ -101,12 +101,18 @@ export default () => {
             onChange={(e) => setTimeValue(e.target.value)}
           />
         </div>
-        {state === LoadingState.ok && (
-          <Button color="primary" onClick={confirmOrder} className="w-full">
-            {`Заказать за ${sum.toLocaleString("ru-RU")} ₽`}
-          </Button>
+        {Object.keys(cart.cart).length ? (
+          <>
+            {state === LoadingState.ok && (
+              <Button color="primary" onClick={confirmOrder} className="w-full">
+                {`Заказать за ${sum.toLocaleString("ru-RU")} ₽`}
+              </Button>
+            )}
+            {state === LoadingState.loading && <LoadingIcon />}
+          </>
+        ) : (
+          <h2>⚠️ Сначала добавьте продукты в корзину</h2>
         )}
-        {state === LoadingState.loading && <LoadingIcon />}
       </div>
     </>
   );
