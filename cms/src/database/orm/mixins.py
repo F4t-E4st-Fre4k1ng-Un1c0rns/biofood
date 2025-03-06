@@ -4,7 +4,7 @@ from uuid import UUID, uuid4
 from sqlalchemy import DateTime
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.backend.adapters.database.orm.common import utcnow
+from .common import utcnow
 
 
 class UUIDMixin:

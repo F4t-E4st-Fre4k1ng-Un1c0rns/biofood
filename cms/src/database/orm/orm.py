@@ -8,8 +8,8 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.orm.properties import ForeignKey
 from sqlalchemy.types import DateTime
 
-from src.backend.adapters.database.orm.mixins import TimestampMixin, UUIDMixin
-from src.backend.domain.value_objects import OrderStatus, UserRole
+from .mixins import TimestampMixin, UUIDMixin
+from src.domain.value_objects import OrderStatus, UserRole
 
 
 class Base(AsyncAttrs, DeclarativeBase): ...
@@ -21,10 +21,16 @@ class UserORM(Base, UUIDMixin, TimestampMixin):
     email: Mapped[str] = mapped_column(String(320), unique=True)
     password: Mapped[str] = mapped_column(String(68), nullable=True)
 
+    def __str__(self):
+        return f"{self.email}"
+
 
 class CategoryORM(Base, UUIDMixin, TimestampMixin):
     __tablename__ = "categories"
     name: Mapped[str] = mapped_column(unique=True)
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 class DishORM(Base, UUIDMixin, TimestampMixin):
@@ -36,6 +42,7 @@ class DishORM(Base, UUIDMixin, TimestampMixin):
     weight: Mapped[int] = mapped_column(SmallInteger, nullable=True)
 
     category_id: Mapped[UUID] = mapped_column(ForeignKey(CategoryORM.id))
+    category: Mapped[CategoryORM] = relationship(lazy="selectin")
 
 
 class ShoppingCartItemORM(Base, UUIDMixin):
@@ -43,8 +50,10 @@ class ShoppingCartItemORM(Base, UUIDMixin):
     __table_args__ = (UniqueConstraint("user_id", "dish_id", name="_user_dishes_uc"),)
     user_id: Mapped[UUID] = mapped_column(ForeignKey(UserORM.id))
     dish_id: Mapped[UUID] = mapped_column(ForeignKey(DishORM.id))
-    dish: Mapped[DishORM] = relationship(lazy="selectin")
     amount: Mapped[int] = mapped_column(SmallInteger)
+
+    dish: Mapped[DishORM] = relationship(lazy="selectin")
+    user: Mapped[UserORM] = relationship(lazy="selectin")
 
 
 class OrderORM(Base, UUIDMixin, TimestampMixin):
@@ -56,11 +65,21 @@ class OrderORM(Base, UUIDMixin, TimestampMixin):
     )
     items: Mapped[list["OrderItemORM"]] = relationship(lazy="selectin")
 
+    user: Mapped[UserORM] = relationship(lazy="selectin")
+
+    def __str__(self):
+        return f"{self.user} - {self.status}"
+
 
 class OrderItemORM(Base, UUIDMixin):
     __tablename__ = "order_items"
     __table_args__ = (UniqueConstraint("order_id", "dish_id", name="_order_dishes_uc"),)
     order_id: Mapped[UUID] = mapped_column(ForeignKey(OrderORM.id))
     dish_id: Mapped[UUID] = mapped_column(ForeignKey(DishORM.id))
-    dish: Mapped[DishORM] = relationship(lazy="selectin")
     amount: Mapped[int] = mapped_column(SmallInteger)
+
+    dish: Mapped[DishORM] = relationship(lazy="selectin")
+    order: Mapped[OrderORM] = relationship(lazy="selectin")
+
+    def __str__(self):
+        return f"{self.order} - {self.dish}"
