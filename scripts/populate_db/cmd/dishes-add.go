@@ -29,11 +29,13 @@ func main() {
 	}
 
 	fmt.Println("Adding every dish from the menu...")
+	counter := 0
 	for i, categories := range allDishesInsideCategories {
-		for j, dishName := range categories {
+		for _, dishName := range categories {
 			categoryId := categoriesIds[i]
-			dish := db.NewDish(dishName, 1000.0, categoryId, allDishBanners[j])
+			dish := db.NewDish(dishName, 1000.0, categoryId, allDishBanners[counter])
 			allDishes = append(allDishes, dish)
+			counter++
 		}
 	}
 
