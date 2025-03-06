@@ -1,0 +1,113 @@
+specification {
+  element actor
+  element system
+  element component
+}
+
+model {
+  customer = actor 'Клиент' {
+    description 'Студент который хочет похавать'
+    style {
+      shape person
+      color muted
+    }
+  }
+  staff = actor 'Персонал' {
+    description 'Повара которые готовят еду'
+    style {
+      shape person
+      color muted
+    }
+  }
+  manager = actor 'Владелец/Менеджер' {
+    description 'Главный, который отвечает за развитие бизнеса и закупки'
+    style {
+      shape person
+      color muted
+    }
+  }
+
+  saas = system 'Biofood SAAS' {
+    component client_frontend 'Клиентский Frontend' {
+      description '
+        Даёт доступ к меню заказам пользователя через UI
+      '
+      style {
+        shape browser
+      }
+    }
+    component client_backend 'Клиентский Backend' {
+      description '
+        Имплементит авторизацию, логику для заказов и меню
+      '
+    }
+    component client_database 'Клиентская БД' {
+      description '
+        Имплементит авторизацию, логику для заказов и меню
+      '
+      style {
+        shape cylinder
+      }
+    }
+    component staff_service 'Админка для персонала' {
+      description '
+        Фулстековое решение из коробки, которая даёт делат ьбазовые операции в бд
+      '
+      style {
+        shape browser
+      }
+    }
+    component analytics_service 'Скрипт для аналитики' {
+      description '
+        Скрипт запускающийся раз в неделю, для предсказания заказов
+      '
+    }
+    component analytics_database 'Аналитическая БД' {
+      description '
+        Имплементит авторизацию, логику для заказов и меню
+      '
+      style {
+        shape cylinder
+      }
+    }
+    component datalens 'Datalens' {
+      description '
+        Даёт просматривать данные и строить на их основе графики
+      '
+      style {
+        shape browser
+      }
+    }
+
+    client_frontend -> client_backend 'Ходит на REST API'
+    client_backend -> client_database 'Получает и изменяет клиентские данные'
+    staff_service -> client_database 'Получает заказы и изменяет их статус'
+    analytics_service -> client_database 'Собирает данные по заказм'
+    analytics_service -> analytics_database 'Записывает получившиеся предсказания'
+    datalens -> analytics_database 'Читает предсказания по продажам'
+    datalens -> client_database 'Читает общую статистику'
+  }
+
+  // Customer uses the UI
+  customer -> client_frontend 'Заказывает еду'
+  staff -> staff_service 'Управляет заказми'
+  manager -> datalens 'Смотрит статистику для принятия решений'
+}
+
+views {
+
+  view index {
+    title 'Landscape view'
+
+    include *
+  }
+
+  view saas of saas {
+    include *
+
+    style * {
+      opacity 25%
+    }
+  }
+
+}
