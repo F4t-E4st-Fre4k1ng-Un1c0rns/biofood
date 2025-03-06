@@ -28,6 +28,8 @@ export default ({
           <img
             src={
               dish.banner ??
+              // @ts-ignore
+              dish.bannerPath ??
               "https://images.unsplash.com/photo-1531234799389-dcb7651eb0a2?q=80&w=200&auto=format"
             }
             alt={dish.name}
