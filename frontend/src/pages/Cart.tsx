@@ -48,9 +48,10 @@ export default () => {
       return;
     }
     setState(LoadingState.loading);
+    cart.clearCart();
     put(cookBy?.toISOString() ?? null)
       .then((order) => {
-        if (!order) {
+        if (!order || !order.id) {
           navigate(`/order/500?new=1`);
         }
         cache.setCachedOrders([order!]);
