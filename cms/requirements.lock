@@ -14,19 +14,20 @@ annotated-types==0.7.0
     # via pydantic
 anyio==4.8.0
     # via starlette
-    # via watchfiles
 asyncpg==0.30.0
     # via cms
+bcrypt==4.3.0
+    # via cms
 click==8.1.8
-    # via granian
+    # via uvicorn
 colorama==0.4.6
     # via click
 fastapi==0.115.11
     # via cms
-granian==2.0.1
-    # via cms
 greenlet==3.1.1
     # via sqlalchemy
+h11==0.14.0
+    # via uvicorn
 idna==3.10
     # via anyio
 itsdangerous==2.2.0
@@ -40,6 +41,8 @@ pydantic==2.10.6
     # via fastapi
 pydantic-core==2.27.2
     # via pydantic
+pyjwt==2.10.1
+    # via cms
 python-dotenv==1.0.1
     # via cms
 python-multipart==0.0.20
@@ -59,7 +62,7 @@ typing-extensions==4.12.2
     # via pydantic
     # via pydantic-core
     # via sqlalchemy
-watchfiles==1.0.4
-    # via granian
+uvicorn==0.34.0
+    # via cms
 wtforms==3.1.2
     # via sqladmin

@@ -9,6 +9,6 @@ RUN	uv pip install --no-cache --system -r requirements.lock
 
 COPY . .
 
-CMD ["granian", "--interface", "asgi", "src/app.py", "--host", "0.0.0.0"]
-# granian --interface asgi src/app.py --reload --access-log --host 0.0.0.0
-
+CMD ["uvicorn", "src.app:app", "--host", "0.0.0.0", "--forwarded-allow-ips='*'", "--proxy-headers"]
+# uvicorn src.app:app --host 0.0.0.0 --forwarded-allow-ips='*' --proxy-headers  
+# uvicorn src.app:app --reload
