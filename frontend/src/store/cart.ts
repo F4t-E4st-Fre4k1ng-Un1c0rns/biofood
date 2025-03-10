@@ -25,7 +25,6 @@ export const useCartStore = create<CartStore>((set) => ({
       } else {
         count = 1;
       }
-      console.log("here", id, state, count);
       return {
         ...state,
         cart: {
