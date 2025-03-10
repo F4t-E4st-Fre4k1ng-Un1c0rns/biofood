@@ -34,40 +34,57 @@ model {
       '
       style {
         shape browser
+        icon tech:react
       }
     }
     component client_backend 'Клиентский Backend' {
       description '
         Имплементит авторизацию, логику для заказов и меню
       '
+      style {
+        icon https://icon.icepanel.io/Technology/svg/FastAPI.svg
+      }
     }
     component client_database 'Клиентская БД' {
       description '
         Имплементит авторизацию, логику для заказов и меню
       '
       style {
+        icon https://icons.terrastruct.com/dev%2Fpostgresql.svg        shape cylinder
         shape cylinder
       }
     }
-    component staff_service 'Админка для персонала' {
+    component staff_service 'POS приложение' {
       description '
-        Фулстековое решение из коробки, которая даёт делат ьбазовые операции в бд
+        Приложение для поваров, позволяющая отмечать состояния заказов
       '
       style {
-        shape browser
+        icon tech:react
+        shape mobile
       }
     }
     component analytics_service 'Скрипт для аналитики' {
       description '
         Скрипт запускающийся раз в неделю, для предсказания заказов
       '
+      style {
+        icon tech:python
+      }
+    }
+    component cms_service 'CMS' {
+      description '
+        Сервис, преднозначенный для менеджмента контента (фулстак готовая админка)
+      '
+      style {
+        icon tech:python
+      }
     }
     component analytics_database 'Аналитическая БД' {
       description '
         Имплементит авторизацию, логику для заказов и меню
       '
       style {
-        shape cylinder
+        icon https://icons.terrastruct.com/dev%2Fpostgresql.svg        shape cylinder
       }
     }
     component datalens 'Datalens' {
@@ -76,22 +93,25 @@ model {
       '
       style {
         shape browser
+        icon https://datalens.tech/favicon-192x192.png
       }
     }
 
     client_frontend -> client_backend 'Ходит на REST API'
     client_backend -> client_database 'Получает и изменяет клиентские данные'
-    staff_service -> client_database 'Получает заказы и изменяет их статус'
+    staff_service -> client_backend 'Получает заказы и изменяет их статус'
     analytics_service -> client_database 'Собирает данные по заказм'
     analytics_service -> analytics_database 'Записывает получившиеся предсказания'
     datalens -> analytics_database 'Читает предсказания по продажам'
     datalens -> client_database 'Читает общую статистику'
+    cms_service -> client_database 'Обновляет данные о товарах'
   }
 
   // Customer uses the UI
   customer -> client_frontend 'Заказывает еду'
   staff -> staff_service 'Управляет заказми'
   manager -> datalens 'Смотрит статистику для принятия решений'
+  manager -> cms_service 'Меняет меню'
 }
 
 views {
