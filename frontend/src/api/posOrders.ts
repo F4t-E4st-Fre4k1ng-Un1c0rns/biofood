@@ -6,9 +6,6 @@ type ApiOrder = Order & { takeoutTime: string | null };
 export async function load(
   status: Order["status"]
 ): Promise<Order[] | undefined> {
-  if (import.meta.env.VITE_MOCK_API) {
-    throw new Error();
-  }
   const { getState: getAuthState } = useAuthStore;
   if (!getAuthState().loggedIn) {
     return;
@@ -40,9 +37,6 @@ export async function patch(
   id: Order["id"],
   status: Order["status"]
 ): Promise<Order[] | undefined> {
-  if (import.meta.env.VITE_MOCK_API) {
-    throw new Error();
-  }
   const { getState: getAuthState } = useAuthStore;
   if (!getAuthState().loggedIn) {
     return;

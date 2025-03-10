@@ -53,12 +53,13 @@ function Cart() {
       .then((order) => {
         if (!order || !order.id) {
           navigate(`/order/500?new=1`);
+          return;
         }
-        cache.setCachedOrders([order!]);
-        navigate(`/order/${order!.id}?new=1`);
+        cache.setCachedOrders([order]);
+        navigate(`/order/${order.id}?new=1`);
       })
-      .catch((e) => {
-        console.error(e);
+      .catch((event) => {
+        console.error(event);
         navigate("/order/500?new=1");
       });
   };
@@ -72,7 +73,7 @@ function Cart() {
             return;
           }
           if (!(dishId in cache.dishes)) {
-            return <Fragment key={dishId}></Fragment>;
+            return <Fragment key={dishId} />;
           }
           const add = () => {
             cart.addToCart(dishId);
@@ -82,14 +83,14 @@ function Cart() {
           };
           return (
             <DishInCart
-              dish={cache.dishes[dishId]}
-              count={count}
               add={add}
-              remove={remove}
-              showChangeButton={true}
-              showPrice={true}
-              showImage={true}
+              count={count}
+              dish={cache.dishes[dishId]}
               key={dishId}
+              remove={remove}
+              showChangeButton
+              showImage
+              showPrice
             />
           );
         })}
@@ -98,16 +99,16 @@ function Cart() {
         <div className="flex justify-between py-8">
           <h2>Приготовить к</h2>
           <input
-            type="time"
-            min={nowString}
             max="18:00"
-            onChange={(e) => setTimeValue(e.target.value)}
+            min={nowString}
+            onChange={(event) => setTimeValue(event.target.value)}
+            type="time"
           />
         </div>
         {Object.keys(cart.cart).length ? (
           <>
             {state === LoadingState.ok && (
-              <Button color="primary" onClick={confirmOrder} className="w-full">
+              <Button className="w-full" color="primary" onClick={confirmOrder}>
                 {`Заказать за ${sum.toLocaleString("ru-RU")} ₽`}
               </Button>
             )}

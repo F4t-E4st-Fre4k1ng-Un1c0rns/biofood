@@ -38,19 +38,19 @@ function Account() {
     <div className="flex flex-col gap-8">
       <h1>Аккаунт</h1>
       <p>{auth.user?.email}</p>
-      <Button color="primary" onClick={auth.logout} className="w-full">
+      <Button className="w-full" color="primary" onClick={auth.logout}>
         Выйти
       </Button>
 
       {auth.user?.role === "staff" && (
         <>
-          <Link to="/pos/chef" className="block w-full">
-            <Button color="accent" className="w-full">
+          <Link className="block w-full" to="/pos/chef">
+            <Button className="w-full" color="accent">
               Панель повара
             </Button>
           </Link>
-          <Link to="/account/qr/" className="block w-full">
-            <Button color="accent" className="w-full">
+          <Link className="block w-full" to="/account/qr/">
+            <Button className="w-full" color="accent">
               QR для входа в панель повора
             </Button>
           </Link>
@@ -58,9 +58,9 @@ function Account() {
       )}
 
       <h1>История заказов</h1>
-      {ordersState == LoadingState.loading && <LoadingIcon />}
-      {ordersState == LoadingState.error && <Error code={500} />}
-      {ordersState == LoadingState.ok &&
+      {ordersState === LoadingState.loading && <LoadingIcon />}
+      {ordersState === LoadingState.error && <Error code={500} />}
+      {ordersState === LoadingState.ok &&
         orders?.map((order) => {
           return (
             <div key={order.id}>
@@ -75,12 +75,12 @@ function Account() {
               {order?.items?.map((item) => {
                 return (
                   <DishInCart
-                    dish={item.dish}
                     count={item.amount}
-                    showChangeButton={false}
-                    showPrice={true}
-                    showImage={true}
+                    dish={item.dish}
                     key={item.dish.id}
+                    showChangeButton={false}
+                    showImage
+                    showPrice
                   />
                 );
               })}

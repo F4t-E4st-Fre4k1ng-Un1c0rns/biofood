@@ -1,16 +1,16 @@
 import Button from "@/components/Button";
 
 interface Props {
-  count: number;
-  add: () => void;
-  remove: () => void;
-  className?: string;
+  readonly count: number;
+  readonly add: () => void;
+  readonly remove: () => void;
+  readonly className?: string;
 }
 
-export function AddToCart({ count, add, remove, className }: Props) {
+function AddToCart({ count, add, remove, className }: Props) {
   if (!count) {
     return (
-      <Button onClick={add} color="primary" className={className}>
+      <Button className={className} color="primary" onClick={add}>
         В корзину!
       </Button>
     );
@@ -18,13 +18,15 @@ export function AddToCart({ count, add, remove, className }: Props) {
 
   return (
     <div className={`flex items-center justify-between ${className ?? ""}`}>
-      <Button onClick={remove} color="secondary">
+      <Button color="secondary" onClick={remove}>
         -
       </Button>
       <p className="h-fit">{count}</p>
-      <Button onClick={add} color="secondary">
+      <Button color="secondary" onClick={add}>
         +
       </Button>
     </div>
   );
 }
+
+export default AddToCart;

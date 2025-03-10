@@ -2,8 +2,8 @@ import Button from "@/components/Button";
 import OrderStatus from "@/types/OrderStatus";
 
 interface Props {
-  status: OrderStatus;
-  setStatus: (status: OrderStatus) => void;
+  readonly status: OrderStatus;
+  readonly setStatus: (status: OrderStatus) => void;
 }
 
 const ACCEPT_BUTTON_TEXT = {
@@ -27,16 +27,16 @@ const NEXT_STATUS = {
 function NextButton({ status, setStatus }: Props) {
   return (
     <div className="w-full flex justify-between mb-3">
-      {status == OrderStatus.pending ? (
+      {status === OrderStatus.pending ? (
         <Button
-          color="secondary"
           className="mr-1"
+          color="secondary"
           onClick={() => setStatus(OrderStatus.canceled)}
         >
           Отменить
         </Button>
       ) : (
-        <div></div>
+        <div />
       )}
       <Button color="primary" onClick={() => setStatus(NEXT_STATUS[status])}>
         {ACCEPT_BUTTON_TEXT[status]}

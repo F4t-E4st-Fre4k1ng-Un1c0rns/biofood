@@ -73,22 +73,22 @@ function ChefKanban() {
         <div>
           <h1>Ожидают готовки</h1>
           {pendingOrders.map((order) => (
-            <PosOrder order={order} key={order.id} />
+            <PosOrder key={order.id} order={order} />
           ))}
           {acceptedOrders.map((order) => (
-            <PosOrder order={order} key={order.id} />
+            <PosOrder key={order.id} order={order} />
           ))}
         </div>
         <div>
           <h1>Готовятся</h1>
           {cookingOrders.map((order) => (
-            <PosOrder order={order} key={order.id} />
+            <PosOrder key={order.id} order={order} />
           ))}
         </div>
         <div>
           <h1>Ожидают выдачи</h1>
           {readyOrders.map((order) => (
-            <PosOrder order={order} key={order.id} />
+            <PosOrder key={order.id} order={order} />
           ))}
         </div>
       </div>

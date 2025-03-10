@@ -3,7 +3,7 @@ import Categories from "./Category";
 export default interface Dish {
   id: string;
   name: string;
-  banner: string | undefined;
+  bannerPath: string | undefined;
   price: number;
   description: string | undefined;
   category: Categories["id"];

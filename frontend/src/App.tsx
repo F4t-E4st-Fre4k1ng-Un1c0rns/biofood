@@ -3,7 +3,7 @@ import "./index.css";
 import Catalogue from "./pages/Catalogue";
 import Cart from "./pages/Cart";
 import { useCacheStore } from "./store/cache";
-import { lazy, Suspense, useEffect } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { useCartStore } from "./store/cart";
 import OrderDone from "./pages/OrderDone";
 import Main from "./layouts/main";
@@ -28,28 +28,26 @@ export function App() {
   }, []);
 
   return (
-    <>
-      <Suspense>
-        <Routes>
-          <Route path="/pos/" element={<Pos />}>
-            <Route path="chef/" element={<ChefKanban />} />
-            <Route path="login/" element={<PosLogin />} />
-          </Route>
+    <Suspense>
+      <Routes>
+        <Route element={<Pos />} path="/pos/">
+          <Route element={<ChefKanban />} path="chef/" />
+          <Route element={<PosLogin />} path="login/" />
+        </Route>
 
-          <Route path="/" element={<Main />}>
-            <Route path="/" element={<Catalogue />} />
-            <Route path="/cart/" element={<Cart />} />
-            <Route path="/order/:id/" element={<OrderDone />} />
-            <Route path="/login/" element={<Login />} />
-            <Route path="/login-done/" element={<LoginDone />} />
-            <Route path="/account/" element={<Account />} />
-            <Route path="/account/qr/" element={<StaffQrCode />} />
-          </Route>
+        <Route element={<Main />} path="/">
+          <Route element={<Catalogue />} path="/" />
+          <Route element={<Cart />} path="/cart/" />
+          <Route element={<OrderDone />} path="/order/:id/" />
+          <Route element={<Login />} path="/login/" />
+          <Route element={<LoginDone />} path="/login-done/" />
+          <Route element={<Account />} path="/account/" />
+          <Route element={<StaffQrCode />} path="/account/qr/" />
+        </Route>
 
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
-    </>
+        <Route element={<NotFound />} path="*" />
+      </Routes>
+    </Suspense>
   );
 }
 

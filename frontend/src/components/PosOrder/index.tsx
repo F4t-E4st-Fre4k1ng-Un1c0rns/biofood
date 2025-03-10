@@ -6,7 +6,7 @@ import { patch } from "@/api/posOrders";
 import OrderStatus from "@/types/OrderStatus";
 
 interface Props {
-  order: Order;
+  readonly order: Order;
 }
 function PosOrder({ order }: Props) {
   const setStatus = (status: OrderStatus) => {
@@ -26,9 +26,9 @@ function PosOrder({ order }: Props) {
       </div>
 
       {order.items.map(({ dish, amount }) => (
-        <DishInCart dish={dish} count={amount} key={dish.id} />
+        <DishInCart count={amount} dish={dish} key={dish.id} />
       ))}
-      <NextButton status={order.status} setStatus={setStatus} />
+      <NextButton setStatus={setStatus} status={order.status} />
     </div>
   );
 }

@@ -14,7 +14,7 @@ function StaffQrCode() {
       <h1>QR для входа в POS</h1>
       <p>Вы входите как {auth.user?.email}</p>
       <QRCode value={auth.user?.token || ""} />
-      <Button onClick={copy} color="primary">
+      <Button color="primary" onClick={copy}>
         Скопировать токен
       </Button>
     </div>
