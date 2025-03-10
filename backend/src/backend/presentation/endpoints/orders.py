@@ -36,34 +36,34 @@ orders_router = APIRouter(prefix="")
     "/orders",
     tags=["Store"],
     response_model=GetOrdersListResultDTO,
-    summary="Get list of users orders",
+    summary="Subscribe to users orders changes",
 )
 async def get_orders_list(
     ioc: Annotated[IoC, Depends()],
     access_token: Annotated[AccessToken, Depends(provide_access_token)],
 ):
-    with ioc.get_orders_list(access_token) as get_orders_list_interactor:
-        return await get_orders_list_interactor()
+    with ioc.subscribe_to_orders_list(access_token) as subscribe_to_orders_generator:
+        async def string_generator():
+            async for item in subscribe_to_orders_generator():
+                yield item.model_dump_json()
+        return StreamingResponse(string_generator(), media_type="text/event-stream")
 
 
 @orders_router.post(
     "/orders/subscribe-all",
     tags=["Staff"],
     response_model=SubscribeToAllOrdersResultDTO,
-    summary="Subsribe to orders SSE",
+    summary="Subsribe to all orders changes",
 )
 async def get(
     ioc: Annotated[IoC, Depends()],
-    access_token: Annotated[AccessToken, Depends(provide_access_token)],
+    access_token: Annotated[AccessToken, Depends(provide_admin_access_token)],
 ):
     with ioc.subscribe_to_all_orders(access_token) as subscribe_to_orders_generator:
 
         async def string_generator():
-            try:
-                async for item in subscribe_to_orders_generator():
-                    yield item.model_dump_json()
-            except Exception as err:
-                print(err)
+            async for item in subscribe_to_orders_generator():
+                yield item.model_dump_json()
 
         return StreamingResponse(string_generator(), media_type="text/event-stream")
 
