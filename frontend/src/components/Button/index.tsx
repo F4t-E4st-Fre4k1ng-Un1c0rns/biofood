@@ -1,10 +1,10 @@
 import { MouseEventHandler } from "react";
 
 interface Props {
-  children: string;
-  color: "primary" | "secondary" | "accent";
-  onClick?: MouseEventHandler<HTMLButtonElement>;
-  className?: string;
+  readonly children: string;
+  readonly color: "primary" | "secondary" | "accent";
+  readonly onClick?: MouseEventHandler<HTMLButtonElement>;
+  readonly className?: string;
 }
 
 const colors = {
@@ -15,8 +15,8 @@ const colors = {
 function Button({ children, onClick, color, className }: Props) {
   return (
     <button
-      onClick={onClick}
       className={`rounded-xl bg-accent h-fit ${className ?? ""}`}
+      onClick={onClick}
     >
       <div
         className={`p-4 rounded-xl ${colors[color]} hover:translate-(--button-offset)`}

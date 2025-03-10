@@ -14,7 +14,7 @@ export const InCart: Story = {
     dish: {
       id: "hi!",
       name: "Еда",
-      banner:
+      bannerPath:
         "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?q=80&w=1024",
       price: 1000,
       description: "Очень вкусная еда",
@@ -32,7 +32,7 @@ export const InCartWithoutBanner: Story = {
     dish: {
       id: "hi!",
       name: "Еда",
-      banner: undefined,
+      bannerPath: undefined,
       price: 1000,
       description: "Очень вкусная еда",
       category: "Food",
@@ -49,7 +49,7 @@ export const LongInCart: Story = {
     dish: {
       id: "hi!",
       name: "Едаааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааааа вкуууууснаяяя",
-      banner:
+      bannerPath:
         "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?q=80&w=1024",
       price: 100000000000,
       description:
@@ -68,7 +68,7 @@ export const OnOrderDetails: Story = {
     dish: {
       id: "hi!",
       name: "Еда",
-      banner:
+      bannerPath:
         "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?q=80&w=1024",
       price: 1000,
       description: "Очень вкусная еда",
@@ -86,7 +86,7 @@ export const OnChefScreen: Story = {
     dish: {
       id: "hi!",
       name: "Еда",
-      banner:
+      bannerPath:
         "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?q=80&w=1024",
       price: 1000,
       description: "Очень вкусная еда",

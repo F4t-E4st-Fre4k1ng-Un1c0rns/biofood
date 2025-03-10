@@ -2,7 +2,7 @@ import Order from "@/types/Order";
 import { colorClasses, names } from "./consts";
 
 interface Props {
-  status: Order["status"];
+  readonly status: Order["status"];
 }
 
 function OrderStatus({ status }: Props) {

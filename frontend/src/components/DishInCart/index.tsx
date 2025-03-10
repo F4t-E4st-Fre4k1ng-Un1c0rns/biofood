@@ -2,14 +2,14 @@ import Dish from "@/types/Dish";
 import AddToCart from "../AddToCart";
 
 interface Props {
-  dish: Dish;
-  count: number;
-  add?: () => void;
-  remove?: () => void;
+  readonly dish: Dish;
+  readonly count: number;
+  readonly add?: () => void;
+  readonly remove?: () => void;
 
-  showChangeButton?: boolean;
-  showPrice?: boolean;
-  showImage?: boolean;
+  readonly showChangeButton?: boolean;
+  readonly showPrice?: boolean;
+  readonly showImage?: boolean;
 }
 
 function DishInCart({
@@ -26,14 +26,12 @@ function DishInCart({
       <div className="flex gap-4 items-center">
         {showImage && (
           <img
+            alt={dish.name}
+            className="size-20 rounded-2xl object-cover"
             src={
-              dish.banner ??
-              // @ts-expect-error TODO fix type
               dish.bannerPath ??
               "https://images.unsplash.com/photo-1531234799389-dcb7651eb0a2?q=80&w=200&auto=format"
             }
-            alt={dish.name}
-            className="size-20 rounded-2xl object-cover"
           />
         )}
         <div>
@@ -42,9 +40,9 @@ function DishInCart({
         </div>
       </div>
       <div className="flex gap-4 items-center justify-between sm:justify-end">
-        {showPrice ? <p>{dish.price.toLocaleString("ru-RU")}₽</p> : <div></div>}
+        {showPrice ? <p>{dish.price.toLocaleString("ru-RU")}₽</p> : <div />}
         {showChangeButton && add && remove ? (
-          <AddToCart count={count} add={add} remove={remove} className="w-50" />
+          <AddToCart add={add} className="w-50" count={count} remove={remove} />
         ) : (
           `${count} шт`
         )}

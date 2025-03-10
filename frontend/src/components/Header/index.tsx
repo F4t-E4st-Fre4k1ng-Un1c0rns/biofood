@@ -7,7 +7,7 @@ import unknownUserIcon from "./icons/unknown-user.svg";
 import { useAuthStore } from "@/store/auth";
 
 interface Props {
-  categories: Category[];
+  readonly categories: Category[];
 }
 
 function Header({ categories }: Props) {
@@ -17,7 +17,7 @@ function Header({ categories }: Props) {
       <HashLink to="/#">Биофуд</HashLink>
       <nav className="w-full flex gap-6 text-nowrap overflow-scroll">
         {categories.map((category) => (
-          <HashLink to={`/#${category.id}`} key={category.id}>
+          <HashLink key={category.id} to={`/#${category.id}`}>
             {category.name}
           </HashLink>
         ))}

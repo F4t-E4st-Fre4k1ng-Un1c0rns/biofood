@@ -12,11 +12,12 @@ function LoginDone() {
   const auth = useAuthStore();
 
   useEffect(() => {
-    if (!params.get("access_token")) {
+    const token = params.get("access_token");
+    if (!token) {
       console.error("No code");
       return;
     }
-    auth.auth(params.get("access_token")!).then(() => {
+    auth.auth(token).then(() => {
       cart.restoreCart();
       navigate("/cart", {
         replace: true,

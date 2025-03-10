@@ -8,9 +8,6 @@ interface DishInApiCart {
 }
 
 export async function load(): Promise<Record<Dish["id"], number>> {
-  if (import.meta.env.VITE_MOCK_API) {
-    throw new Error();
-  }
   const { getState: getAuthState } = useAuthStore;
   if (!getAuthState().loggedIn) {
     return {};

@@ -11,7 +11,7 @@ const textDict = {
 };
 
 interface Props {
-  code: keyof typeof emojiDict;
+  readonly code: keyof typeof emojiDict;
 }
 function Error({ code }: Props) {
   return (

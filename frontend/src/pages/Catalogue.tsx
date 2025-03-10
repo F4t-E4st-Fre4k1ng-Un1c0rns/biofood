@@ -6,7 +6,7 @@ function Catalogue() {
   return (
     <>
       {catalogue.categories.map((category) => (
-        <Category category={category} key={category.id} id={category.id} />
+        <Category category={category} id={category.id} key={category.id} />
       ))}
     </>
   );

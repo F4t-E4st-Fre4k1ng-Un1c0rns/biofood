@@ -2,10 +2,10 @@ import type Dish from "@/types/Dish";
 import AddToCart from "@/components/AddToCart";
 
 interface Props {
-  dish: Dish;
-  count: number;
-  add: () => void;
-  remove: () => void;
+  readonly dish: Dish;
+  readonly count: number;
+  readonly add: () => void;
+  readonly remove: () => void;
 }
 
 function DishPreview({ dish, count, add, remove }: Props) {
@@ -15,7 +15,7 @@ function DishPreview({ dish, count, add, remove }: Props) {
         className="h-40 w-full bg-cover bg-center rounded-t-xl"
         style={{
           backgroundImage: `url("${
-            dish.banner ??
+            dish.bannerPath ??
             "https://images.unsplash.com/photo-1531234799389-dcb7651eb0a2?q=80&w=600&auto=format"
           }")`,
         }}
@@ -35,7 +35,7 @@ function DishPreview({ dish, count, add, remove }: Props) {
             </>
           )}
         </p>
-        <AddToCart count={count} add={add} remove={remove} />
+        <AddToCart add={add} count={count} remove={remove} />
       </div>
     </div>
   );

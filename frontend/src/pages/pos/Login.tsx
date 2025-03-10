@@ -6,8 +6,8 @@ function ChefLogin() {
   const auth = useAuthStore();
   const navigate = useNavigate();
 
-  const onTokenInput: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    const token = e.target.value;
+  const onTokenInput: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    const token = event.target.value;
     auth.loginByToken(token);
     navigate("/pos/chef");
   };
@@ -23,14 +23,6 @@ function ChefLogin() {
       <h1 className="mb-4">Отсканируйте свой QR код</h1>
       <div className="w-full flex justify-center mb-4">
         <Scanner
-          onScan={onScan}
-          onError={console.error}
-          styles={{
-            container: {
-              width: 500,
-            },
-            finderBorder: 0,
-          }}
           components={{
             finder: false,
           }}
@@ -39,17 +31,25 @@ function ChefLogin() {
               ideal: "user",
             },
           }}
+          onError={console.error}
+          onScan={onScan}
+          styles={{
+            container: {
+              width: 500,
+            },
+            finderBorder: 0,
+          }}
         />
       </div>
       <div>
         <label htmlFor="token">или введите токен</label>
         <input
-          type="text"
-          id="token"
           autoFocus
           className="border rounded ml-1"
+          id="token"
           onChange={onTokenInput}
-        ></input>
+          type="text"
+        />
       </div>
     </div>
   );

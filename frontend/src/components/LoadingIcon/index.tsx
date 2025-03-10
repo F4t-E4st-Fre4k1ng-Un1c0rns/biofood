@@ -1,11 +1,11 @@
 function LoadingIcon() {
   return (
-    <div role="status" className="w-full flex justify-center">
+    <div className="w-full flex justify-center" role="status">
       <svg
         aria-hidden="true"
         className="w-8 h-8 text-white animate-spin fill-secondary"
-        viewBox="0 0 100 101"
         fill="none"
+        viewBox="0 0 100 101"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path

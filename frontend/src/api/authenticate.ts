@@ -1,10 +1,6 @@
 import User from "@/types/User";
 
 export async function load(token: string): Promise<User> {
-  if (import.meta.env.VITE_MOCK_API) {
-    throw new Error();
-  }
-
   const response = await fetch(
     `${import.meta.env.VITE_API_BASE_URL}/authenticate`,
     {

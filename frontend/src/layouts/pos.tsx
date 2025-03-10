@@ -8,11 +8,9 @@ function PosLayout() {
       "width=device-width, initial-scale=1, user-scalable=0"
     );
   return (
-    <>
-      <div className="select-none">
-        <Outlet />
-      </div>
-    </>
+    <div className="select-none">
+      <Outlet />
+    </div>
   );
 }
 

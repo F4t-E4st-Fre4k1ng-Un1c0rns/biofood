@@ -5,8 +5,8 @@ import DishPreview from "../DishPreview";
 import { useCartStore } from "@/store/cart";
 
 interface Props {
-  category: LocalCategory;
-  id: string;
+  readonly category: LocalCategory;
+  readonly id: string;
 }
 
 function Category({ category, id }: Props) {
@@ -14,7 +14,7 @@ function Category({ category, id }: Props) {
   const cart = useCartStore();
   return (
     <>
-      <h1 id={id} className="not-first:pt-8">
+      <h1 className="not-first:pt-8" id={id}>
         {category.name}
       </h1>
       {!category.loaded && <LoadingIcon />}
@@ -29,11 +29,11 @@ function Category({ category, id }: Props) {
             };
             return (
               <DishPreview
-                dish={catalogue.dishes[dishId]}
-                count={cart.cart[dishId]}
                 add={add}
-                remove={remove}
+                count={cart.cart[dishId]}
+                dish={catalogue.dishes[dishId]}
                 key={dishId}
+                remove={remove}
               />
             );
           })}

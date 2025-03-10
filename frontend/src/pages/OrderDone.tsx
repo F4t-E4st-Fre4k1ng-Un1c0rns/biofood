@@ -36,7 +36,7 @@ function OrderDone() {
   }, [cache.orders[id]]);
 
   useEffect(() => {
-    if (state == LoadingState.ok) {
+    if (state === LoadingState.ok) {
       const intervalId = setInterval(() => {
         if (cache.orders[id].status === OrderStatus.taken) {
           return;
@@ -51,8 +51,8 @@ function OrderDone() {
   return (
     <div className="flex flex-col gap-2">
       <h1>{params.get("new") ? "Спасибо за заказ!" : "Заказ"}</h1>
-      {state == LoadingState.loading && <LoadingIcon />}
-      {state == LoadingState.ok && order && (
+      {state === LoadingState.loading && <LoadingIcon />}
+      {state === LoadingState.ok && order ? (
         <>
           <h2>Ваш заказ №{uuidToOrderNumber(order.id)}:</h2>
           <p>
@@ -67,18 +67,18 @@ function OrderDone() {
           {order.items.map((item) => {
             return (
               <DishInCart
-                dish={item.dish}
                 count={item.amount}
-                showChangeButton={false}
-                showPrice={true}
-                showImage={true}
+                dish={item.dish}
                 key={item.dish.id}
+                showChangeButton={false}
+                showImage
+                showPrice
               />
             );
           })}
         </>
-      )}
-      {state == LoadingState.error && <Error code={500} />}
+      ) : null}
+      {state === LoadingState.error && <Error code={500} />}
     </div>
   );
 }

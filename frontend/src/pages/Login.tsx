@@ -17,7 +17,7 @@ function Login() {
   return (
     <>
       <h1 className="text-center pb-8">Для продолжения войдите</h1>
-      <Button color="primary" onClick={openYandex} className="w-full">
+      <Button className="w-full" color="primary" onClick={openYandex}>
         Войти через Яндекс
       </Button>
     </>

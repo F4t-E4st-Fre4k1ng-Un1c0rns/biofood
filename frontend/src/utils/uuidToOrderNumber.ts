@@ -1,10 +1,10 @@
 export function uuidToOrderNumber(uuid: string) {
   let out = "";
-  for (let i = uuid.length - 1; i > 0; i--) {
-    if (uuid[i].match(/\d/)) {
-      out += uuid[i];
+  for (let index = uuid.length - 1; index > 0; index--) {
+    if (uuid[index].match(/\d/u)) {
+      out += uuid[index];
     }
-    if (out.length == 4) {
+    if (out.length === 4) {
       break;
     }
   }
