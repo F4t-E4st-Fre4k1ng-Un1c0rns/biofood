@@ -21,7 +21,7 @@ from src.backend.application.orders.create_order import (
     CreateOrderDTO,
     CreateOrderResultDTO,
 )
-from src.backend.application.orders.get_orders_list import GetOrdersListResultDTO
+from src.backend.application.orders.subscribe_to_orders_list import SubscribeOrdersListResultDTO
 from src.backend.ioc import IoC
 from src.backend.presentation.dependencies import (
     AccessToken,
@@ -32,10 +32,10 @@ from src.backend.presentation.dependencies import (
 orders_router = APIRouter(prefix="")
 
 
-@orders_router.get(
-    "/orders",
+@orders_router.post(
+    "/orders/subscribe",
     tags=["Store"],
-    response_model=GetOrdersListResultDTO,
+    response_model=SubscribeOrdersListResultDTO,
     summary="Subscribe to users orders changes",
 )
 async def get_orders_list(
