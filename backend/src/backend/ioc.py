@@ -59,7 +59,7 @@ class IoC(InteractorFactory):
         yield DeleteFromShoppingCartItemsList(uow=self.uow_gateway, token=token)
 
     @contextmanager
-    def get_orders_list(self, token: AccessTokenI):
+    def subscribe_to_orders_list(self, token: AccessTokenI):
         yield SubscribeToOrdersList(
             uow=self.uow_gateway,
             orders_channel=self.orders_channel_gateway,

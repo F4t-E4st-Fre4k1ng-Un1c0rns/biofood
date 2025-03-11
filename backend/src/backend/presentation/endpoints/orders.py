@@ -45,7 +45,7 @@ async def get_orders_list(
     with ioc.subscribe_to_orders_list(access_token) as subscribe_to_orders_generator:
         async def string_generator():
             async for item in subscribe_to_orders_generator():
-                yield item.model_dump_json()
+                yield "data:" + item.model_dump_json() + "\n\n"
         return StreamingResponse(string_generator(), media_type="text/event-stream")
 
 
@@ -63,7 +63,7 @@ async def get(
 
         async def string_generator():
             async for item in subscribe_to_orders_generator():
-                yield item.model_dump_json()
+                yield "data:" + item.model_dump_json() + "\n\n"
 
         return StreamingResponse(string_generator(), media_type="text/event-stream")
 
