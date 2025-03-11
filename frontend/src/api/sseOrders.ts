@@ -6,9 +6,9 @@ function sseSubscribeOrders(all?: boolean) {
   const { getState: getCachedState, setState: setCacheState } = useCacheStore;
   const { getState: getAuthState } = useAuthStore;
   const eventSource = new SSE(
-    `${import.meta.env.VITE_API_BASE_URL}/orders/subscribe${all ? "-all" : ""}`,
+    `${import.meta.env.VITE_API_BASE_URL}/orders${all ? "/all" : ""}`,
     {
-      method: "POST",
+      method: "GET",
       headers: {
         Authorization: `Bearer ${getAuthState().user?.token}`,
       },
