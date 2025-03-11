@@ -8,10 +8,6 @@ from backend.application.orders.change_order_status import (
     ChangeOrderStatusDTO,
     ChangeOrderStatusResultDTO,
 )
-from backend.application.orders.get_orders_by_id import (
-    GetOrderByIdDTO,
-    GetOrderByIdResultDTO,
-)
 from backend.application.orders.subscribe_to_all_orders import (
     SubscribeToAllOrdersResultDTO,
 )
@@ -21,7 +17,9 @@ from src.backend.application.orders.create_order import (
     CreateOrderDTO,
     CreateOrderResultDTO,
 )
-from src.backend.application.orders.subscribe_to_orders_list import SubscribeOrdersListResultDTO
+from src.backend.application.orders.subscribe_to_orders_list import (
+    SubscribeOrdersListResultDTO,
+)
 from src.backend.ioc import IoC
 from src.backend.presentation.dependencies import (
     AccessToken,
@@ -32,8 +30,8 @@ from src.backend.presentation.dependencies import (
 orders_router = APIRouter(prefix="")
 
 
-@orders_router.post(
-    "/orders/subscribe",
+@orders_router.get(
+    "/orders",
     tags=["Store"],
     response_model=SubscribeOrdersListResultDTO,
     summary="Subscribe to users orders changes",
@@ -43,14 +41,16 @@ async def get_orders_list(
     access_token: Annotated[AccessToken, Depends(provide_access_token)],
 ):
     with ioc.subscribe_to_orders_list(access_token) as subscribe_to_orders_generator:
+
         async def string_generator():
             async for item in subscribe_to_orders_generator():
-                yield "data:" + item.model_dump_json() + "\n\n"
+                yield "".join(("data:", item.model_dump_json(), "\n\n"))
+
         return StreamingResponse(string_generator(), media_type="text/event-stream")
 
 
-@orders_router.post(
-    "/orders/subscribe-all",
+@orders_router.get(
+    "/orders/all",
     tags=["Staff"],
     response_model=SubscribeToAllOrdersResultDTO,
     summary="Subsribe to all orders changes",
@@ -63,24 +63,9 @@ async def get(
 
         async def string_generator():
             async for item in subscribe_to_orders_generator():
-                yield "data:" + item.model_dump_json() + "\n\n"
+                yield "".join(("data:", item.model_dump_json(), "\n\n"))
 
         return StreamingResponse(string_generator(), media_type="text/event-stream")
-
-
-@orders_router.get(
-    "/orders/{id}",
-    tags=["Store"],
-    response_model=GetOrderByIdResultDTO,
-    summary="Get users order by id",
-)
-async def get_order_by_id(
-    ioc: Annotated[IoC, Depends()],
-    access_token: Annotated[AccessToken, Depends(provide_access_token)],
-    id: OrderID,
-):
-    with ioc.get_order_by_id(access_token) as get_order_by_id_interactor:
-        return await get_order_by_id_interactor(GetOrderByIdDTO(id=id))
 
 
 class ChangeOrderStatusInput(BaseModel):

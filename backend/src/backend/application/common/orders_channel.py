@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from collections.abc import AsyncGenerator
 
 from redis.asyncio.client import PubSub
 
@@ -15,5 +16,5 @@ class OrdersChannel(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def get_subscription(self) -> PubSub:
+    async def generate_updates(self) -> AsyncGenerator[Order]:
         raise NotImplementedError
