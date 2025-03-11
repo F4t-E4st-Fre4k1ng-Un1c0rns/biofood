@@ -1,6 +1,7 @@
+from collections.abc import AsyncGenerator
+
 from pydantic import RedisDsn
 from redis.asyncio import Redis
-from redis.asyncio.client import PubSub
 
 from backend.application.common.orders_channel import OrdersChannel
 from backend.domain.aggregates import Order
@@ -19,7 +20,14 @@ class OrdersChannerGateway(OrdersChannel):
         )
         return updated_order
 
-    async def get_subscription(self) -> PubSub:
+    async def generate_updates(self) -> AsyncGenerator[Order]:
         pubsub = self.redis_client.pubsub()
         await pubsub.subscribe(self._ORDERS_CHANNEL_NAME)
-        return pubsub
+        while True:
+            message = await pubsub.get_message(
+                ignore_subscribe_messages=True, timeout=0.5
+            )
+            if message is None:
+                continue
+            order = Order.model_validate_json(message["data"])
+            yield order

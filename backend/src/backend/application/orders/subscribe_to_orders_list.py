@@ -22,17 +22,10 @@ class SubscribeToOrdersList(InteractorGenerator[None, SubscribeOrdersListResultD
         self, data: None = None
     ) -> AsyncGenerator[SubscribeOrdersListResultDTO]:
         yield await self.__get_first_orders_batch()
-        subscription = await self.orders_channel.get_subscription()
-        while True:
-            message = await subscription.get_message(
-                ignore_subscribe_messages=True, timeout=1
-            )
-            if message is None:
+        async for update in await self.orders_channel.generate_updates():
+            if update.user_id.hex != self.token.user_id:
                 continue
-            order = Order.model_validate_json(message["data"])
-            if order.user_id.hex != self.token.user_id:
-                continue
-            yield SubscribeOrdersListResultDTO(items=[order])
+            yield SubscribeOrdersListResultDTO(items=[update])
 
     async def __get_first_orders_batch(self) -> SubscribeOrdersListResultDTO:
         async with self.uow:

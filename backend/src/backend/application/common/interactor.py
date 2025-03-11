@@ -11,7 +11,7 @@ class Interactor[InputDTO, OutputDTO]:
 
 
 class InteractorGenerator[InputDTO, OutputDTO]:
-    async def __call__(self, data: InputDTO) -> AsyncGenerator[OutputDTO]:
+    def __call__(self, data: InputDTO) -> AsyncGenerator[OutputDTO]:
         raise NotImplementedError
 
 

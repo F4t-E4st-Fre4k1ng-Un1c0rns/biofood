@@ -24,21 +24,17 @@ class SubscribeToAllOrders(InteractorGenerator[None, SubscribeToAllOrdersResultD
     async def __call__(
         self, data: None = None
     ) -> AsyncGenerator[SubscribeToAllOrdersResultDTO]:
+        self.__check_access_rights()
+
+        yield await self.__get_first_orders_batch()
+        async for update in await self.orders_channel.generate_updates():
+            yield SubscribeToAllOrdersResultDTO(items=[update])
+
+    def __check_access_rights(self):
         if self.token.user_role == UserRole.client:
             raise AuthorizationError("You have no right to access all orders list")
 
-        yield await self.__get_fist_orders_batch()
-        subscription = await self.orders_channel.get_subscription()
-        while True:
-            message = await subscription.get_message(
-                ignore_subscribe_messages=True, timeout=0.3
-            )
-            if message is None:
-                continue
-            order = Order.model_validate_json(message["data"])
-            yield SubscribeToAllOrdersResultDTO(items=[order])
-
-    async def __get_fist_orders_batch(self) -> SubscribeToAllOrdersResultDTO:
+    async def __get_first_orders_batch(self) -> SubscribeToAllOrdersResultDTO:
         in_filter: InFilter = {
             "status": [
                 OrderStatus.pending,
