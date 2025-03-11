@@ -1,3 +1,5 @@
+import sseSubscribeOrders from "@/api/sseOrders";
+import { useEffect } from "react";
 import { Outlet } from "react-router";
 
 function PosLayout() {
@@ -7,6 +9,11 @@ function PosLayout() {
       "view",
       "width=device-width, initial-scale=1, user-scalable=0"
     );
+
+  useEffect(() => {
+    sseSubscribeOrders(true);
+  }, []);
+
   return (
     <div className="select-none">
       <Outlet />

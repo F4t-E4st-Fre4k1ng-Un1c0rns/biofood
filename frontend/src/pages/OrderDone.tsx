@@ -31,7 +31,7 @@ function OrderDone() {
       setOrder(cache.orders[id]);
       setState(LoadingState.ok);
     } else {
-      cache.fetchOrder(id).catch(() => setState(LoadingState.error));
+      setState(LoadingState.loading);
     }
   }, [cache.orders[id]]);
 
