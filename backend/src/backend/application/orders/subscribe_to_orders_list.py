@@ -22,7 +22,7 @@ class SubscribeToOrdersList(InteractorGenerator[None, SubscribeOrdersListResultD
         self, data: None = None
     ) -> AsyncGenerator[SubscribeOrdersListResultDTO]:
         yield await self.__get_first_orders_batch()
-        async for update in await self.orders_channel.generate_updates():
+        async for update in self.orders_channel.generate_updates():
             if update.user_id.hex != self.token.user_id:
                 continue
             yield SubscribeOrdersListResultDTO(items=[update])
