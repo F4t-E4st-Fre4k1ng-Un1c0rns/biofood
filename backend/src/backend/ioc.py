@@ -9,10 +9,12 @@ from backend.application.shopping_cart.get_shopping_cart_items_list import (
 )
 from src.backend.adapters.database.uow import UoWGateway
 from src.backend.adapters.oauth import YandexIdGateway
+from src.backend.adapters.push import PushGateway
 from src.backend.adapters.orders_channel import (
     OrdersChannerGateway,
 )
 from src.backend.application.authenticate import Authenticate
+from src.backend.application.push_subscription.subscribe import AddPushSubscription
 from src.backend.application.get_categories_list import GetCategoriesList
 from src.backend.application.get_dishes_list import GetDishshesList
 from src.backend.application.orders.create_order import CreateOrder
@@ -37,6 +39,10 @@ class IoC(InteractorFactory):
     @contextmanager
     def authenticate(self):
         yield Authenticate(uow=self.uow_gateway, yandex_id=self.yandex_id_gateway)
+
+    @contextmanager
+    def subscribe_to_push(self, token: AccessTokenI):
+        yield AddPushSubscription(uow=self.uow_gateway, token=token)
 
     @contextmanager
     def get_categories_list(self):

@@ -38,6 +38,14 @@ class DishORM(Base, UUIDMixin, TimestampMixin):
     category_id: Mapped[UUID] = mapped_column(ForeignKey(CategoryORM.id))
 
 
+class PushSubscriptionORM(Base, UUIDMixin):
+    __tablename__ = "push_subscription"
+    user_id: Mapped[UUID] = mapped_column(ForeignKey(UserORM.id))
+    endpoint: Mapped[str] = mapped_column()
+    p256dh: Mapped[str] = mapped_column()
+    auth: Mapped[str] = mapped_column()
+
+
 class ShoppingCartItemORM(Base, UUIDMixin):
     __tablename__ = "shopping_cart_items"
     __table_args__ = (UniqueConstraint("user_id", "dish_id", name="_user_dishes_uc"),)

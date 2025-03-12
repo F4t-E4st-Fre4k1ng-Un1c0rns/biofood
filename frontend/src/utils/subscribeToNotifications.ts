@@ -1,10 +1,12 @@
+import { sendSubscription } from "@/api/push";
+
 export function subscribeUserToPush() {
   return navigator.serviceWorker
     .register("/serviceWorker.js")
     .then(function (registration) {
       const subscribeOptions = {
         userVisibleOnly: true,
-        applicationServerKey: process.env.VITE_PUBLIC_VAPID_KEY,
+        applicationServerKey: import.meta.env.VITE_PUBLIC_VAPID_KEY,
       };
 
       return registration.pushManager.subscribe(subscribeOptions);
@@ -14,6 +16,7 @@ export function subscribeUserToPush() {
         "Received PushSubscription: ",
         JSON.stringify(pushSubscription)
       );
+      sendSubscription(pushSubscription);
       return pushSubscription;
     });
 }

@@ -3,7 +3,7 @@ from typing import Self
 
 from src.backend.application.common.repository import Repository
 from src.backend.domain.aggregates import Order
-from src.backend.domain.models import Category, Dish, OrderItem, ShoppingCartItem, User
+from src.backend.domain.models import Category, Dish, OrderItem, PushSubscription, ShoppingCartItem, User
 
 
 class UoW(ABC):
@@ -18,6 +18,7 @@ class UoW(ABC):
     shopping_cart: Repository[ShoppingCartItem]  # TODO: Make it aggregate
     order: Repository[Order]
     order_item: Repository[OrderItem]  # TODO: Delete and make aggregates
+    push_subscription: Repository[PushSubscription]
 
     @abstractmethod
     async def __aenter__(self) -> Self:
