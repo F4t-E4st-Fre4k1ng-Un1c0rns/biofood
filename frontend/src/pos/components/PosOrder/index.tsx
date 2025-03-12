@@ -1,6 +1,6 @@
 import Order from "@/types/Order";
 import { uuidToOrderNumber } from "@/utils/uuidToOrderNumber";
-import DishInCart from "../DishInCart";
+import DishInCart from "@/components/DishInCart";
 import NextButton from "./NextButton";
 import { patch } from "@/api/posOrders";
 import OrderStatus from "@/types/OrderStatus";
