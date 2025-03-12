@@ -4,14 +4,14 @@ from httpx import AsyncClient, HTTPStatusError
 from webpush import WebPush
 from webpush.types import WebPushKeys, WebPushSubscription
 
-from src.backend.application.common.push import Push
+from src.backend.application.common.push_service import PushService
 from src.backend.domain.aggregates import Order
 from src.backend.domain.exceptions import AuthenticationError
 from src.backend.domain.models import PushSubscription
 from src.backend.settings import settings
 
 
-class PushGateway(Push):
+class PushServiceGateway(PushService):
     def __init__(self):
         self.client = AsyncClient(http2=True)
         self.wp = WebPush(
@@ -41,4 +41,3 @@ class PushGateway(Push):
                     data=message.encrypted,
                     headers=message.headers,
                 )
-                print(subscription)

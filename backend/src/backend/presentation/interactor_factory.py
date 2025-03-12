@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from typing import ContextManager
 
 from backend.application.orders.change_order_status import ChangeOrderStatus
+from fastapi import BackgroundTasks
 from src.backend.application.authenticate import Authenticate
 from src.backend.application.common.authorization import AccessTokenI
 from src.backend.application.get_categories_list import GetCategoriesList
@@ -72,7 +73,7 @@ class InteractorFactory(ABC):
 
     @abstractmethod
     def change_order_status(
-        self, token: AccessTokenI
+        self, token: AccessTokenI, background_tasks: BackgroundTasks
     ) -> ContextManager[ChangeOrderStatus]:
         raise NotImplementedError
 
