@@ -15,8 +15,8 @@ const NotFound = lazy(() => import("@/pages/NotFound"));
 
 const Pos = lazy(() => import("@/layouts/pos"));
 const StaffQrCode = lazy(() => import("@/pages/StaffQrCode"));
-const ChefKanban = lazy(() => import("@/pages/pos/ChefKanban"));
-const PosLogin = lazy(() => import("@/pages/pos/Login"));
+const ChefKanban = lazy(() => import("@/pos/pages/ChefKanban"));
+const PosLogin = lazy(() => import("@/pos/pages/Login"));
 
 export function App() {
   const cache = useCacheStore();

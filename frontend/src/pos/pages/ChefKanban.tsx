@@ -1,6 +1,6 @@
 import Button from "@/components/Button";
 import LoadingIcon from "@/components/LoadingIcon";
-import PosOrder from "@/components/PosOrder";
+import PosOrder from "../components/PosOrder";
 import { useAuthStore } from "@/store/auth";
 import { useCacheStore } from "@/store/cache";
 import LoadingState from "@/types/LoadingState";
@@ -48,12 +48,12 @@ function ChefKanban() {
   const checkLogout = () => {
     if (confirm("Вы точно хотите выйти?")) {
       auth.logout();
-      navigate("/pos/login");
+      navigate("/login");
     }
   };
 
   if (auth.user?.role !== "staff") {
-    return <Navigate to="/pos/login" />;
+    return <Navigate to="/login" />;
   }
 
   return (

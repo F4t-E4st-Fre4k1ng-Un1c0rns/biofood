@@ -31,11 +31,11 @@ function Account() {
 
       {auth.user?.role === "staff" && (
         <>
-          <Link className="block w-full" to="/pos/chef">
+          <a className="block w-full" href="/src/pos/index.html#/chef">
             <Button className="w-full" color="accent">
               Панель повара
             </Button>
-          </Link>
+          </a>
           <Link className="block w-full" to="/account/qr/">
             <Button className="w-full" color="accent">
               QR для входа в панель повора
