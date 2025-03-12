@@ -15,6 +15,9 @@ class Settings(BaseSettings):
     JWT_SECRET: str
     JWT_ALGORITHMS: list[str] = ["HS256"]
 
+    PUBLIC_VAPID_KEY: str
+    PRIVATE_VAPID_KEY: str
+
     CORS_ALLOW_ORIGINS: list[str] = ["*"]
     CORS_ALLOW_METHODS: list[str] = ["*"]
     CORS_ALLOW_HEADERS: list[str] = ["*"]

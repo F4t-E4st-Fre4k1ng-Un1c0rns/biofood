@@ -35,6 +35,7 @@ class IoC(InteractorFactory):
         self.uow_gateway = UoWGateway()
         self.yandex_id_gateway = YandexIdGateway()
         self.orders_channel_gateway = OrdersChannerGateway()
+        self.push_gateway = PushGateway()
 
     @contextmanager
     def authenticate(self):
@@ -89,6 +90,7 @@ class IoC(InteractorFactory):
         yield ChangeOrderStatus(
             uow=self.uow_gateway,
             orders_channel=self.orders_channel_gateway,
+            push=self.push_gateway,
             token=token,
         )
 
