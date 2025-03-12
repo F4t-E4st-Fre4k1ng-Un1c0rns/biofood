@@ -8,7 +8,7 @@ export async function sendSubscription(
     return;
   }
 
-  const pushId = localStorage.getItem("pushId") || undefined;
+  const pushId = localStorage.getItem("pushId");
 
   const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/push`, {
     method: "POST",

@@ -1,16 +1,20 @@
+function uuidToOrderNumber(uuid) {
+  let out = "";
+  for (let index = uuid.length - 1; index > 0; index--) {
+    if (uuid[index].match(/\d/u)) {
+      out += uuid[index];
+    }
+    if (out.length === 4) {
+      break;
+    }
+  }
+  return out;
+}
+
 self.addEventListener("push", function (event) {
-  console.log("Received a push message", event);
+  const order = JSON.parse(event.data.text());
+  const orderId = uuidToOrderNumber(order.id);
+  const title = `Заказ №${orderId} ${order.status === "done" ? "готов к выдаче" : "отклонен"}`;
 
-  const title = "New Notification";
-  const body = "You have new updates!";
-  const icon = "/images/icon.png";
-  const tag = "simple-push-demo-notification-tag";
-
-  event.waitUntil(
-    self.registration.showNotification(title, {
-      body: body,
-      icon: icon,
-      tag: tag,
-    })
-  );
+  event.waitUntil(self.registration.showNotification(title));
 });

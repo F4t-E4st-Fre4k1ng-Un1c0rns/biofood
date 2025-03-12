@@ -6,16 +6,12 @@ export function subscribeUserToPush() {
     .then(function (registration) {
       const subscribeOptions = {
         userVisibleOnly: true,
-        applicationServerKey: import.meta.env.VITE_PUBLIC_VAPID_KEY,
+        applicationServerKey: import.meta.env.VITE_PUSH_APPLICATION_KEY,
       };
 
       return registration.pushManager.subscribe(subscribeOptions);
     })
     .then(function (pushSubscription) {
-      console.log(
-        "Received PushSubscription: ",
-        JSON.stringify(pushSubscription)
-      );
       sendSubscription(pushSubscription);
       return pushSubscription;
     });

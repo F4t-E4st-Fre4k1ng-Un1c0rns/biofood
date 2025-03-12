@@ -1,7 +1,6 @@
 import { defineConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite";
 import { URL, fileURLToPath } from "node:url";
-import { buildSync } from "esbuild";
 import react from "@vitejs/plugin-react";
 
 const ReactCompilerConfig = {};
