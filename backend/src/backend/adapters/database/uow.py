@@ -5,8 +5,8 @@ from .repository import (
     DishRepository,
     OrderItemRepository,
     OrderRepository,
-    ShoppingCartItemRepository,
     PushSubscriptionRepository,
+    ShoppingCartItemRepository,
     UserRepository,
 )
 from .session import session_factory

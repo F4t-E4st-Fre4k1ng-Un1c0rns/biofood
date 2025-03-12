@@ -17,8 +17,10 @@ class PushSubscriptionInputDTO(DomainModelBase):
     p256dh: str
     auth: str
 
+
 class PushSubscriptionOutputDTO(DomainModelBase):
     id: PushSubscriptionID
+
 
 class AddPushSubscription(
     Interactor[PushSubscriptionInputDTO, PushSubscriptionOutputDTO]
@@ -40,8 +42,10 @@ class AddPushSubscription(
             return await self.__update_subscription(input)
         except NotFound:
             return await self.__create_subscription(input)
-    
+
     async def __update_subscription(self, input: PushSubscriptionInputDTO):
+        if not input.id:
+            raise NotFound
         data = {
             "user_id": self.token.user_id,
             "endpoint": input.endpoint,
@@ -56,8 +60,7 @@ class AddPushSubscription(
             "user_id": self.token.user_id,
             "endpoint": input.endpoint,
             "p256dh": input.p256dh,
-            "auth": input.auth
+            "auth": input.auth,
         }
         record = await self.uow.push_subscription.create_one(data)
         return record.id
-

@@ -9,18 +9,18 @@ from backend.application.shopping_cart.get_shopping_cart_items_list import (
 )
 from src.backend.adapters.database.uow import UoWGateway
 from src.backend.adapters.oauth import YandexIdGateway
-from src.backend.adapters.push import PushGateway
 from src.backend.adapters.orders_channel import (
     OrdersChannerGateway,
 )
+from src.backend.adapters.push import PushGateway
 from src.backend.application.authenticate import Authenticate
-from src.backend.application.push_subscription.subscribe import AddPushSubscription
 from src.backend.application.get_categories_list import GetCategoriesList
 from src.backend.application.get_dishes_list import GetDishshesList
 from src.backend.application.orders.create_order import CreateOrder
 from src.backend.application.orders.subscribe_to_orders_list import (
     SubscribeToOrdersList,
 )
+from src.backend.application.push_subscription.subscribe import AddPushSubscription
 from src.backend.application.shopping_cart.add_to_shopping_cart_items import (
     AddToShoppingCartItemsList,
 )

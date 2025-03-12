@@ -16,6 +16,7 @@ from src.backend.presentation.dependencies import (
 
 push_router = APIRouter(prefix="")
 
+
 @push_router.post(
     "/push",
     tags=["Push"],

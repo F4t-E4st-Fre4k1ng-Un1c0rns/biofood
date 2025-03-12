@@ -3,7 +3,14 @@ from typing import Self
 
 from src.backend.application.common.repository import Repository
 from src.backend.domain.aggregates import Order
-from src.backend.domain.models import Category, Dish, OrderItem, PushSubscription, ShoppingCartItem, User
+from src.backend.domain.models import (
+    Category,
+    Dish,
+    OrderItem,
+    PushSubscription,
+    ShoppingCartItem,
+    User,
+)
 
 
 class UoW(ABC):
