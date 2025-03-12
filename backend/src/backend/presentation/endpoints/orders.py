@@ -83,9 +83,11 @@ async def change_order_status(
     access_token: Annotated[AccessToken, Depends(provide_access_token)],
     id: OrderID,
     data: ChangeOrderStatusInput,
-    background_tasks: BackgroundTasks
+    background_tasks: BackgroundTasks,
 ):
-    with ioc.change_order_status(access_token, background_tasks) as change_order_status_interactor:
+    with ioc.change_order_status(
+        access_token, background_tasks
+    ) as change_order_status_interactor:
         return await change_order_status_interactor(
             ChangeOrderStatusDTO(id=id, new_status=data.status)
         )

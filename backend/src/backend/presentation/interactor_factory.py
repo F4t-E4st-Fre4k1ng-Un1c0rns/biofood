@@ -1,8 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import ContextManager
 
-from backend.application.orders.change_order_status import ChangeOrderStatus
 from fastapi import BackgroundTasks
+
+from backend.application.orders.change_order_status import ChangeOrderStatus
 from src.backend.application.authenticate import Authenticate
 from src.backend.application.common.authorization import AccessTokenI
 from src.backend.application.get_categories_list import GetCategoriesList

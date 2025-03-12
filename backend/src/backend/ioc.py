@@ -96,7 +96,7 @@ class IoC(InteractorFactory):
             orders_channel=self.orders_channel_gateway,
             push=self.push_serivce_gateway,
             token=token,
-            background_tasks=backgound_tasks
+            background_tasks=backgound_tasks,
         )
 
     @contextmanager

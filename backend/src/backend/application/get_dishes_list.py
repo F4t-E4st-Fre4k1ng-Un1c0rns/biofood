@@ -19,7 +19,11 @@ class GetDishshesList(Interactor[GetDishesListDTO, GetDishesListResultDTO]):
         self.uow = uow
 
     async def __call__(self, data: GetDishesListDTO) -> GetDishesListResultDTO:
+        if data.category_id is not None:
+            by_filter = {"category_id": data.category_id}
+        else:
+            by_filter = {}
+
         async with self.uow as uow:
-            by_filter = {"category_id": data.category_id} if data.category_id else {}
             dishes = await uow.dish.find_many(by_filter=by_filter)
         return GetDishesListResultDTO(items=list(dishes))
