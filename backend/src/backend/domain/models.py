@@ -9,6 +9,7 @@ from src.backend.domain.value_objects import UserRole
 from src.backend.settings import settings
 
 UserID = NewType("UserID", UUID)
+PushSubscriptionID = NewType("PushSubscriptionID", UUID)
 CategoryID = NewType("CategoryID", UUID)
 DishID = NewType("DishID", UUID)
 ShoppingCartItemID = NewType("ShoppingCartItemID", UUID)
@@ -19,6 +20,14 @@ class User(Base):
     id: UserID
     role: UserRole
     email: EmailStr
+
+
+class PushSubscription(Base):
+    id: PushSubscriptionID
+    user_id: UserID
+    endpoint: str
+    p256dh: str
+    auth: str
 
 
 class Category(Base):

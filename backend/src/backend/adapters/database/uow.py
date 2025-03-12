@@ -5,6 +5,7 @@ from .repository import (
     DishRepository,
     OrderItemRepository,
     OrderRepository,
+    PushSubscriptionRepository,
     ShoppingCartItemRepository,
     UserRepository,
 )
@@ -18,6 +19,7 @@ class UoWGateway(UoW):
     async def __aenter__(self):
         self.session = self.session_factory()
         self.user = UserRepository(self.session)
+        self.push_subscription = PushSubscriptionRepository(self.session)
         self.dish = DishRepository(self.session)
         self.category = CategoryRepository(self.session)
         self.shopping_cart = ShoppingCartItemRepository(self.session)

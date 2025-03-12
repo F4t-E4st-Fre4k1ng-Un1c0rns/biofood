@@ -5,14 +5,10 @@ import OrderStatusComponent from "@/components/OrderStatus";
 import { useCacheStore } from "@/store/cache";
 import LoadingState from "@/types/LoadingState";
 import Order from "@/types/Order";
-import OrderStatus from "@/types/OrderStatus";
+import { subscribeUserToPush } from "@/utils/subscribeToNotifications";
 import { uuidToOrderNumber } from "@/utils/uuidToOrderNumber";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router";
-
-const REFRESH_TIMEOUT = parseInt(
-  import.meta.env.VITE_ORDER_REFRESH_TIMEOUT ?? "1000"
-);
 
 function OrderDone() {
   const cache = useCacheStore();
@@ -36,17 +32,8 @@ function OrderDone() {
   }, [cache.orders[id]]);
 
   useEffect(() => {
-    if (state === LoadingState.ok) {
-      const intervalId = setInterval(() => {
-        if (cache.orders[id].status === OrderStatus.taken) {
-          return;
-        }
-        cache.fetchOrder(id);
-      }, REFRESH_TIMEOUT);
-
-      return () => clearInterval(intervalId);
-    }
-  }, [state]);
+    subscribeUserToPush();
+  }, []);
 
   return (
     <div className="flex flex-col gap-2">

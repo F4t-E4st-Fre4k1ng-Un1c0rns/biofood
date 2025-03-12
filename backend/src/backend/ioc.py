@@ -1,5 +1,7 @@
 from contextlib import contextmanager
 
+from fastapi import BackgroundTasks
+
 from backend.application.common.authorization import AccessTokenI
 from backend.application.orders.change_order_status import ChangeOrderStatus
 from backend.application.orders.get_orders_by_id import GetOrderByID
@@ -12,6 +14,7 @@ from src.backend.adapters.oauth import YandexIdGateway
 from src.backend.adapters.orders_channel import (
     OrdersChannerGateway,
 )
+from src.backend.adapters.push_service import PushServiceGateway
 from src.backend.application.authenticate import Authenticate
 from src.backend.application.get_categories_list import GetCategoriesList
 from src.backend.application.get_dishes_list import GetDishshesList
@@ -19,6 +22,7 @@ from src.backend.application.orders.create_order import CreateOrder
 from src.backend.application.orders.subscribe_to_orders_list import (
     SubscribeToOrdersList,
 )
+from src.backend.application.push_subscription.subscribe import AddPushSubscription
 from src.backend.application.shopping_cart.add_to_shopping_cart_items import (
     AddToShoppingCartItemsList,
 )
@@ -33,10 +37,15 @@ class IoC(InteractorFactory):
         self.uow_gateway = UoWGateway()
         self.yandex_id_gateway = YandexIdGateway()
         self.orders_channel_gateway = OrdersChannerGateway()
+        self.push_serivce_gateway = PushServiceGateway()
 
     @contextmanager
     def authenticate(self):
         yield Authenticate(uow=self.uow_gateway, yandex_id=self.yandex_id_gateway)
+
+    @contextmanager
+    def subscribe_to_push(self, token: AccessTokenI):
+        yield AddPushSubscription(uow=self.uow_gateway, token=token)
 
     @contextmanager
     def get_categories_list(self):
@@ -79,11 +88,15 @@ class IoC(InteractorFactory):
         )
 
     @contextmanager
-    def change_order_status(self, token: AccessTokenI):
+    def change_order_status(
+        self, token: AccessTokenI, backgound_tasks: BackgroundTasks
+    ):
         yield ChangeOrderStatus(
             uow=self.uow_gateway,
             orders_channel=self.orders_channel_gateway,
+            push=self.push_serivce_gateway,
             token=token,
+            background_tasks=backgound_tasks,
         )
 
     @contextmanager

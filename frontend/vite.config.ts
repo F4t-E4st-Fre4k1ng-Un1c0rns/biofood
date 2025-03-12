@@ -14,6 +14,19 @@ export default defineConfig({
       },
     }),
   ],
+  build: {
+    rollupOptions: {
+      input: {
+        main: fileURLToPath(new URL("index.html", import.meta.url)),
+        serviceWorker: fileURLToPath(
+          new URL("serviceWorker.js", import.meta.url)
+        ),
+      },
+      output: {
+        entryFileNames: "[name].js",
+      },
+    },
+  },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),

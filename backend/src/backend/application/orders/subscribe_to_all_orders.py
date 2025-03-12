@@ -27,7 +27,7 @@ class SubscribeToAllOrders(InteractorGenerator[None, SubscribeToAllOrdersResultD
         self.__check_access_rights()
 
         yield await self.__get_first_orders_batch()
-        async for update in await self.orders_channel.generate_updates():
+        async for update in self.orders_channel.generate_updates():
             yield SubscribeToAllOrdersResultDTO(items=[update])
 
     def __check_access_rights(self):

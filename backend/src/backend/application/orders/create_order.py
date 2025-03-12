@@ -16,7 +16,7 @@ from src.backend.domain.value_objects import OrderStatus
 
 
 class CreateOrderDTO(DomainModelBase):
-    takeout_time: Optional[AwareDatetime]
+    takeout_time: Optional[AwareDatetime] = None
 
 
 class CreateOrderResultDTO(RootModel):

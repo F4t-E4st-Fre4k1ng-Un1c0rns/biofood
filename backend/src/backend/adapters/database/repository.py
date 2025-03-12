@@ -12,6 +12,7 @@ from src.backend.adapters.database.orm.orm import (
     DishORM,
     OrderItemORM,
     OrderORM,
+    PushSubscriptionORM,
     ShoppingCartItemORM,
     UserORM,
 )
@@ -30,7 +31,14 @@ from src.backend.application.common.repository import Repository
 from src.backend.application.common.sentinel import _sentinel
 from src.backend.domain.aggregates import Order
 from src.backend.domain.exceptions import IntegrityCompromised, NotFound
-from src.backend.domain.models import Category, Dish, OrderItem, ShoppingCartItem, User
+from src.backend.domain.models import (
+    Category,
+    Dish,
+    OrderItem,
+    PushSubscription,
+    ShoppingCartItem,
+    User,
+)
 
 
 class SQLAlchemyRepository[ModelT](Repository[ModelT]):
@@ -248,6 +256,13 @@ class OrderRepository(SQLAlchemyRepository[Order]):
 
     async def _map_to_domain_model(self, orm_model) -> Order:
         return Order.model_validate(orm_model)
+
+
+class PushSubscriptionRepository(SQLAlchemyRepository[PushSubscription]):
+    model = PushSubscriptionORM
+
+    async def _map_to_domain_model(self, orm_model) -> PushSubscription:
+        return PushSubscription.model_validate(orm_model)
 
 
 # TODO: DELETE And make aggregates

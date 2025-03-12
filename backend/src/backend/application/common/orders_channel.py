@@ -16,5 +16,5 @@ class OrdersChannel(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def generate_updates(self) -> AsyncGenerator[Order]:
+    def generate_updates(self) -> AsyncGenerator[Order]:
         raise NotImplementedError
