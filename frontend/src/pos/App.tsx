@@ -4,8 +4,8 @@ import { useCacheStore } from "../store/cache";
 import { Suspense, lazy, useEffect } from "react";
 import { useCartStore } from "../store/cart";
 import NotFound from "@/pages/NotFound";
+import sseSubscribeOrders from "@/api/sseOrders";
 
-const Pos = lazy(() => import("@/layouts/pos"));
 const ChefKanban = lazy(() => import("@/pos/pages/ChefKanban"));
 const PosLogin = lazy(() => import("@/pos/pages/Login"));
 
@@ -16,18 +16,21 @@ export function App() {
   useEffect(() => {
     cache.fetchCatalogue();
     cart.fetch();
+    sseSubscribeOrders(true);
   }, []);
 
   return (
-    <Suspense>
-      <Routes>
-        <Route element={<Pos />} path="/">
-          <Route element={<ChefKanban />} path="chef/" />
-          <Route element={<PosLogin />} path="login/" />
-        </Route>
-        <Route element={<NotFound />} path="*" />
-      </Routes>
-    </Suspense>
+    <div className="select-none">
+      <Suspense>
+        <Routes>
+          <Route path="/">
+            <Route element={<ChefKanban />} path="chef/" />
+            <Route element={<PosLogin />} path="login/" />
+          </Route>
+          <Route element={<NotFound />} path="*" />
+        </Routes>
+      </Suspense>
+    </div>
   );
 }
 
