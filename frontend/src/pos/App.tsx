@@ -4,6 +4,7 @@ import { useCacheStore } from "../store/cache";
 import { Suspense, lazy, useEffect } from "react";
 import { useCartStore } from "../store/cart";
 import NotFound from "@/pages/NotFound";
+import sseSubscribeOrders from "@/api/sseOrders";
 
 const ChefKanban = lazy(() => import("@/pos/pages/ChefKanban"));
 const PosLogin = lazy(() => import("@/pos/pages/Login"));
@@ -15,6 +16,7 @@ export function App() {
   useEffect(() => {
     cache.fetchCatalogue();
     cart.fetch();
+    sseSubscribeOrders(true);
   }, []);
 
   return (
