@@ -6,8 +6,6 @@ import Sidebar from "./Sidebar";
 
 interface Props {
   readonly categories: Category[];
-  readonly isDrawerOpen: boolean;
-  handleDrawerClose(): void;
 }
 
 function Drawer({ categories }: Props) {
@@ -18,7 +16,7 @@ function Drawer({ categories }: Props) {
   return (
     <>
       <img
-        className="w-12"
+        className="w-6"
         onClick={handleDrawerOpen}
         src={menuHamburgerIcon}
       />

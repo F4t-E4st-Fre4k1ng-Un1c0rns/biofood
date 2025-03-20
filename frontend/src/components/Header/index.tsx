@@ -34,11 +34,11 @@ function Header({ categories }: Props) {
         </Link>
         {auth.loggedIn ? (
           <Link to="/account">
-            <img src={userIcon} />
+            <img className="hover:text-primary" src={userIcon} />
           </Link>
         ) : (
           <Link to="/login">
-            <img src={unknownUserIcon} />
+            <img className="hover:text-primary" src={unknownUserIcon} />
           </Link>
         )}
       </header>
@@ -46,26 +46,25 @@ function Header({ categories }: Props) {
   }
   return (
     <header className="w-full flex justify-between gap-6 p-8 sticky top-0 bg-white items-center">
-      <Drawer categories={categories} />
-      <HashLink className="text-2xl font-semibold" to="/#">
+      <Drawer categories={categories}/>
+      <HashLink className="ml-6 text-xl font-semibold" to="/#">
         Биофуд
       </HashLink>
       <div className="flex gap-4">
         <Link to="/cart/">
-          <img className="w-12" src={shoppingCartIcon} />
+          <img className="w-6 hover:text-primary" src={shoppingCartIcon} />
         </Link>
         {auth.loggedIn ? (
           <Link to="/account">
-            <img className="w-12" src={userIcon} />
+            <img className="w-6 hover:text-primary" src={userIcon} />
           </Link>
         ) : (
           <Link to="/login">
-            <img className="w-12" src={unknownUserIcon} />
+            <img className="w-6 hover:text-primary" src={unknownUserIcon} />
           </Link>
         )}
       </div>
     </header>
   );
 }
-
 export default Header;
