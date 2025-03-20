@@ -14,7 +14,7 @@ function uuidToOrderNumber(uuid) {
 self.addEventListener("push", function (event) {
   const order = JSON.parse(event.data.text());
   const orderId = uuidToOrderNumber(order.id);
-  const title = `Заказ №${orderId} ${order.status === "done" ? "готов к выдаче" : "отклонен"}`;
+  const title = `Заказ №${orderId} ${order.status === "ready" ? "готов к выдаче" : "отклонен"}`;
 
   event.waitUntil(self.registration.showNotification(title));
 });

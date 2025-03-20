@@ -30,7 +30,7 @@ function Header({ categories }: Props) {
           ))}
         </nav>
         <Link to="/cart/">
-          <img className="hover:text-primary" src={shoppingCartIcon} />
+          <img src={shoppingCartIcon} />
         </Link>
         {auth.loggedIn ? (
           <Link to="/account">

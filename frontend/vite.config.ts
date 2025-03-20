@@ -18,6 +18,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: fileURLToPath(new URL("index.html", import.meta.url)),
+        pos: fileURLToPath(new URL("src/pos/index.html", import.meta.url)),
         serviceWorker: fileURLToPath(
           new URL("serviceWorker.js", import.meta.url)
         ),

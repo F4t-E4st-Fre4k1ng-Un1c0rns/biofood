@@ -1,11 +1,13 @@
 import sseSubscribeOrders from "@/api/sseOrders";
 import Header from "@/components/Header";
+import LoadingIcon from "@/components/LoadingIcon";
 import { useCacheStore } from "@/store/cache";
-import { useEffect } from "react";
-import { Outlet } from "react-router";
+import { Suspense, useEffect } from "react";
+import { Outlet, useLocation } from "react-router";
 
 function Layout() {
   const catalogue = useCacheStore();
+  const location = useLocation();
 
   useEffect(() => {
     sseSubscribeOrders();
@@ -15,7 +17,9 @@ function Layout() {
     <>
       <Header categories={catalogue.categories} />
       <div className="p-8">
-        <Outlet />
+        <Suspense fallback={<LoadingIcon />} key={location.key}>
+          <Outlet />
+        </Suspense>
       </div>
     </>
   );

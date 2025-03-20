@@ -26,6 +26,9 @@ function sseSubscribeOrders(all?: boolean) {
       });
     }
   };
+  eventSource.onerror = () => {
+    sseSubscribeOrders(all);
+  };
 }
 
 export default sseSubscribeOrders;

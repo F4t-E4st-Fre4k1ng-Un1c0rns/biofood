@@ -13,10 +13,7 @@ const LoginDone = lazy(() => import("@/pages/LoginDone"));
 const Account = lazy(() => import("@/pages/Account"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 
-const Pos = lazy(() => import("@/layouts/pos"));
 const StaffQrCode = lazy(() => import("@/pages/StaffQrCode"));
-const ChefKanban = lazy(() => import("@/pages/pos/ChefKanban"));
-const PosLogin = lazy(() => import("@/pages/pos/Login"));
 
 export function App() {
   const cache = useCacheStore();
@@ -30,11 +27,6 @@ export function App() {
   return (
     <Suspense>
       <Routes>
-        <Route element={<Pos />} path="/pos/">
-          <Route element={<ChefKanban />} path="chef/" />
-          <Route element={<PosLogin />} path="login/" />
-        </Route>
-
         <Route element={<Main />} path="/">
           <Route element={<Catalogue />} path="/" />
           <Route element={<Cart />} path="/cart/" />

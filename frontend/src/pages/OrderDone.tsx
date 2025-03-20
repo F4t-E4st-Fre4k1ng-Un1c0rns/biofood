@@ -5,6 +5,7 @@ import OrderStatusComponent from "@/components/OrderStatus";
 import { useCacheStore } from "@/store/cache";
 import LoadingState from "@/types/LoadingState";
 import Order from "@/types/Order";
+import OrderStatus from "@/types/OrderStatus";
 import { subscribeUserToPush } from "@/utils/subscribeToNotifications";
 import { uuidToOrderNumber } from "@/utils/uuidToOrderNumber";
 import { useEffect, useState } from "react";
@@ -42,14 +43,20 @@ function OrderDone() {
       {state === LoadingState.ok && order ? (
         <>
           <h2>Ваш заказ №{uuidToOrderNumber(order.id)}:</h2>
-          <p>
-            Будет готов{" "}
-            {order.takeoutTime ? (
-              <>к {order.takeoutTime.toLocaleString("ru-RU")}</>
-            ) : (
-              "скоро"
-            )}
-          </p>
+          {[
+            OrderStatus.accepted,
+            OrderStatus.cooking,
+            OrderStatus.pending,
+          ].includes(order.status) && (
+            <p>
+              Будет готов{" "}
+              {order.takeoutTime ? (
+                <>к {order.takeoutTime.toLocaleString("ru-RU")}</>
+              ) : (
+                "скоро"
+              )}
+            </p>
+          )}
           <OrderStatusComponent status={order.status} />
           {order.items.map((item) => {
             return (

@@ -9,13 +9,13 @@ function ChefLogin() {
   const onTokenInput: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const token = event.target.value;
     auth.loginByToken(token);
-    navigate("/pos/chef");
+    navigate("/chef");
   };
 
   const onScan = (code: IDetectedBarcode[]) => {
     const token = code[0].rawValue;
     auth.loginByToken(token);
-    navigate("/pos/chef");
+    navigate("/chef");
   };
 
   return (
